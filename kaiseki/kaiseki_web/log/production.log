@@ -1,0 +1,106 @@
+[Mon Dec 16 23:57:59 2013] [info] Listening at "http://*:8080".
+[Mon Dec 16 23:57:59 2013] [info] Manager 2786 started.
+[Mon Dec 16 23:57:59 2013] [info] Upgrade successful, stopping 2767.
+[Mon Dec 16 23:58:00 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Mon Dec 16 23:58:45 2013] [error] Global symbol "@arrays" requires explicit package name at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/Kaiseki.pm line 379.
+Compilation failed in require at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Web/Controller/Root.pm line 4.
+BEGIN failed--compilation aborted at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Web/Controller/Root.pm line 4.
+Compilation failed in require at (eval 261) line 1.
+
+[Tue Dec 17 00:00:00 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:00:00 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:00:00 2013] [info] Manager 2794 started.
+[Tue Dec 17 00:00:00 2013] [info] Upgrade successful, stopping 2786.
+[Tue Dec 17 00:00:01 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:00:03 2013] [error] Global symbol "$body1" requires explicit package name at template example/index.html.ep line 49.
+syntax error at template example/index.html.ep line 50, near "-->"
+syntax error at template example/index.html.ep line 55, near "-->"
+Global symbol "$head" requires explicit package name at template example/index.html.ep line 64.
+syntax error at template example/index.html.ep line 65, near "-->"
+syntax error at template example/index.html.ep line 69, near "-->"
+Global symbol "$body2" requires explicit package name at template example/index.html.ep line 78.
+syntax error at template example/index.html.ep line 79, near "-->"
+syntax error at template example/index.html.ep line 84, near "-->"
+79:               % foreach my $line (@$lines) { -->
+80: 
+81:                 <td><%=$gabad->{$key} %></td>
+82:              <!--  % }
+83:             % }
+84:           % } -->
+85:             % }
+86:           % }
+87:         </tr>
+88:       </table>
+89:     </td>
+
+[Tue Dec 17 00:05:20 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:05:20 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:05:20 2013] [info] Manager 2806 started.
+[Tue Dec 17 00:05:20 2013] [info] Upgrade successful, stopping 2794.
+[Tue Dec 17 00:05:21 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:05:22 2013] [error] syntax error at template example/index.html.ep line 55, near "-->"
+Global symbol "$head" requires explicit package name at template example/index.html.ep line 64.
+syntax error at template example/index.html.ep line 65, near "-->"
+Global symbol "$key" requires explicit package name at template example/index.html.ep line 66.
+syntax error at template example/index.html.ep line 69, near "-->"
+Global symbol "$body2" requires explicit package name at template example/index.html.ep line 78.
+syntax error at template example/index.html.ep line 79, near "-->"
+Global symbol "$key" requires explicit package name at template example/index.html.ep line 81.
+syntax error at template example/index.html.ep line 84, near "-->"
+syntax error at template example/index.html.ep line 87, near "} 
+$_M "
+template example/index.html.ep has too many errors.
+
+[Tue Dec 17 00:08:34 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:08:34 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:08:34 2013] [info] Manager 2813 started.
+[Tue Dec 17 00:08:34 2013] [info] Upgrade successful, stopping 2806.
+[Tue Dec 17 00:08:35 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:08:40 2013] [error] Can't use string ("") as a HASH ref while "strict refs" in use at template example/index.html.ep line 46.
+41:     <td>
+42:       <table border="1" id="virtable">
+43:         <tr>
+44:           <th>理想形データ</th>
+45:           <!-- % my $value; -->
+46:           % if (%$gagood and %$gabad) {
+47:             % foreach my $key (keys(%$gagood)) {
+48:            <!-- % if ($body1) { -->
+49:             <!-- % foreach my $lines (@$body1) { -->
+50:               <!-- % foreach my $line (@$lines) { -->
+51:               <!-- % $value = $gagood->{$key} -->
+
+[Tue Dec 17 00:09:55 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:09:56 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:09:56 2013] [info] Manager 2820 started.
+[Tue Dec 17 00:09:56 2013] [info] Upgrade successful, stopping 2813.
+[Tue Dec 17 00:09:57 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:10:03 2013] [error] Can't use string ("") as a HASH ref while "strict refs" in use at template example/index.html.ep line 46.
+41:     <td>
+42:       <table border="1" id="virtable">
+43:         <tr>
+44:           <th>理想形データ</th>
+45:           <!-- % my $value; -->
+46:           % if (keys(%$gagood) and keys(%$gabad)) {
+47:             % foreach my $key (keys(%$gagood)) {
+48:            <!-- % if ($body1) { -->
+49:             <!-- % foreach my $lines (@$body1) { -->
+50:               <!-- % foreach my $line (@$lines) { -->
+51:               <!-- % $value = $gagood->{$key} -->
+
+[Tue Dec 17 00:11:08 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:11:08 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:11:08 2013] [info] Manager 2829 started.
+[Tue Dec 17 00:11:08 2013] [info] Upgrade successful, stopping 2820.
+[Tue Dec 17 00:11:09 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:11:25 2013] [error] can't open /myapp/mvc/kaiseki/kaiseki_web/public/datas/gaapi_json/gaapiv3json.dat: ãã®ãããªãã¡ã¤ã«ããã£ã¬ã¯ããªã¯ããã¾ãã at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/Kaiseki.pm line 44.
+
+[Tue Dec 17 00:13:33 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:13:34 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:13:34 2013] [info] Manager 2836 started.
+[Tue Dec 17 00:13:34 2013] [info] Upgrade successful, stopping 2829.
+[Tue Dec 17 00:13:35 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Tue Dec 17 00:23:22 2013] [info] Starting zero downtime software upgrade.
+[Tue Dec 17 00:23:23 2013] [info] Listening at "http://*:8080".
+[Tue Dec 17 00:23:23 2013] [info] Manager 2848 started.
+[Tue Dec 17 00:23:23 2013] [info] Upgrade successful, stopping 2836.
+[Tue Dec 17 00:23:24 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".

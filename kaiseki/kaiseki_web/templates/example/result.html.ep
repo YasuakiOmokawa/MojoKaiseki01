@@ -1,0 +1,3 @@
+% layout 'default';
+% title '占い結果';
+<p><%= $name %>さんの結果「<%= $message %>」</p>

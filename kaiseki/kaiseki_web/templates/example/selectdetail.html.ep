@@ -1,0 +1,24 @@
+% layout 'default';
+% title '分析結果の詳細選択';
+
+<h1>詳細分析の基準を選択してください</h1>
+<pre>
+# この画面から基準を選択させて詳細結果ページへ飛ばす感じ。
+</pre>
+  <div>パラメータ表示</div>
+  <p><%=$start_date %></p>
+  <p><%=$end_date %></p>
+  <p><%=$metrics %></p>
+  <p><%=$caption %></p>
+<form action="/detail" target="_blank">
+  <div>
+    <label>比較基準(必須) : 
+      <%= select_field metrics => [
+                                    [コンバージョン値1 => 'ga:goal1Value'],
+                                    [コンバージョン値2 => 'ga:goal2Value'],
+                                    [コンバージョン値3 => 'ga:goal3Value'],
+                                  ]
+      %>
+    <input type="submit" value="詳細結果を表示" >
+  </div>
+</form>
