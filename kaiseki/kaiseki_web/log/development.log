@@ -136,3 +136,62 @@ Compilation failed in require at (eval 252) line 1.
 [Fri Dec  6 00:49:08 2013] [debug] Rendering inline template.
 [Fri Dec  6 00:49:08 2013] [debug] Rendering inline template.
 [Fri Dec  6 00:49:08 2013] [debug] 500 Internal Server Error (0.379127s, 2.638/s).
+[Mon Jan 27 23:12:28 2014] [info] Listening at "http://*:3000".
+[Mon Jan 27 23:12:54 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Jan 27 23:12:54 2014] [debug] GET "/".
+[Mon Jan 27 23:12:54 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Jan 27 23:12:54 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Jan 27 23:12:54 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Jan 27 23:12:54 2014] [debug] 200 OK (0.757551s, 1.320/s).
+[Mon Jan 27 23:13:11 2014] [debug] GET "/".
+[Mon Jan 27 23:13:11 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Jan 27 23:13:11 2014] [debug] Rendering cached template "example/index.html.ep".
+[Mon Jan 27 23:13:11 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Mon Jan 27 23:13:11 2014] [debug] 200 OK (0.034780s, 28.752/s).
+[Mon Jan 27 23:24:41 2014] [info] Listening at "'http://*:5000/'".
+[Mon Jan 27 23:24:58 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Jan 27 23:24:58 2014] [debug] GET "/".
+[Mon Jan 27 23:24:58 2014] [error] Global symbol "$src" requires explicit package name at C:/GitHub/MojoKaiseki01/kaiseki/kaiseki_web/script/../lib/Kaiseki/Web/Controller/Root.pm line 33.
+Compilation failed in require at (eval 242) line 1.
+
+[Mon Jan 27 23:24:58 2014] [debug] Template "exception.development.html.ep" not found.
+[Mon Jan 27 23:24:58 2014] [debug] Template "exception.html.ep" not found.
+[Mon Jan 27 23:24:58 2014] [debug] Rendering inline template.
+[Mon Jan 27 23:24:58 2014] [debug] Rendering inline template.
+[Mon Jan 27 23:24:58 2014] [debug] 500 Internal Server Error (0.697394s, 1.434/s).
+[Mon Jan 27 23:26:56 2014] [info] Listening at "'http://*:5000/'".
+[Mon Jan 27 23:27:01 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Jan 27 23:27:01 2014] [debug] GET "/".
+[Mon Jan 27 23:27:01 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Jan 27 23:27:01 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Jan 27 23:27:01 2014] [error] Global symbol "$error" requires explicit package name at template example/index.html.ep line 19.
+14:     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
+15:     <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br>
+16:     <input type="submit" value="比較開始" >
+17:   </div>
+18: </form>
+19: <div style="color:red"><%= $error %></div>
+20: 
+21: <!-- 比較結果表示 -->
+22: <div style="color:red"><%= $src %></div>
+23: 
+24: 
+
+[Mon Jan 27 23:27:01 2014] [debug] Template "exception.development.html.ep" not found.
+[Mon Jan 27 23:27:01 2014] [debug] Template "exception.html.ep" not found.
+[Mon Jan 27 23:27:01 2014] [debug] Rendering inline template.
+[Mon Jan 27 23:27:01 2014] [debug] Rendering inline template.
+[Mon Jan 27 23:27:01 2014] [debug] 500 Internal Server Error (0.721824s, 1.385/s).
+[Mon Jan 27 23:30:16 2014] [info] Listening at "'http://*:5000/'".
+[Mon Jan 27 23:30:21 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Jan 27 23:30:21 2014] [debug] GET "/".
+[Mon Jan 27 23:30:22 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Jan 27 23:30:22 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Jan 27 23:30:22 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Jan 27 23:30:22 2014] [debug] 200 OK (0.700033s, 1.429/s).
+[Mon Jan 27 23:30:42 2014] [debug] GET "/".
+[Mon Jan 27 23:30:42 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Jan 27 23:30:52 2014] [debug] Rendering cached template "example/index.html.ep".
+[Mon Jan 27 23:30:52 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Mon Jan 27 23:30:52 2014] [debug] 200 OK (10.141155s, 0.099/s).
+[Mon Jan 27 23:31:42 2014] [info] Listening at "'http://*:5000/'".

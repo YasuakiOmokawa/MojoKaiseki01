@@ -548,7 +548,7 @@ sub scrapeGadata {
 	print FH MIME::Base64::decode_base64($png_base64);
 	close FH;
 
-	print $d->get_page_source()."\n";
+	return $d->get_page_source()."\n";
 
 	$d->quit();
 

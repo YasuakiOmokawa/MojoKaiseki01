@@ -1,6 +1,6 @@
 % layout 'default';
-% title 'Google Analytics ビューデータ比較 version 0.0.1';
-<h1>Google Analytics ビューデータの比較を行っちゃうぜヒャッハー!!!</h1>
+% title 'Google Analytics ビューデータ比較 version 0.0.2';
+<h1>APIを使わないバージョン</h1>
 <pre>
 # 日付入力欄にはhtml5から追加されたinput type=date を使っています。
 # Google Chrome, Opera 以外はまだ普通のテキスト入力になっており、
@@ -9,19 +9,6 @@
 </pre>
 <form action="/">
   <div>
-    <label>比較基準(必須) : 
-      <!--<select name="metrics">
-        <option value="ga:goal1Value">コンバージョン値1</option>
-        <option value="ga:goal2Value">コンバージョン値2</option>
-        <option value="ga:goal3Value">コンバージョン値3</option>
-      </select>-->
-      <%= select_field metrics => [
-                                    [コンバージョン値1 => 'ga:goal1Value'],
-                                    [コンバージョン値2 => 'ga:goal2Value'],
-                                    [コンバージョン値3 => 'ga:goal3Value'],
-                                  ]
-      %>
-    </label><br>
     <fieldset>
       <legend>期間(必須)</legend>
     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
@@ -32,73 +19,7 @@
 <div style="color:red"><%= $error %></div>
 
 <!-- 比較結果表示 -->
-<table border="1" align="center">
-% if ($caption) {
-  <caption>比較基準 <%=$caption %></caption>
-% }
-  <tr>
-    <td>
-      <table border="1" id="virtable">
-        <tr>
-          <th bgcolor="#808080">理想値</th>
-          % if ($gagood) {
-            % foreach my $key (sort keys(%$gagood)) {
-              <td><%=$gagood->{$key}->[0] %></td>
-            % }
-          % }
-        </tr>
-      </table>
-    </td>
-    <td>
-      <table border="1" id="virtable">
-        <tr>
-          <th bgcolor="#808080">項目名</th>
-          <!-- 詳細選択画面へパラメータを付けて遷移 -->
-          % if ($gagood) {
-            % foreach my $key (sort keys(%$gagood)) {
-              <td bgcolor="#808080">
-                <form action="/selectdetail" method="post" target="_blank" id="fordetail<%=$gagood->{$key}->[1] %>">
-                  <a href="javascript:;" onclick="document.getElementById('fordetail<%=$gagood->{$key}->[1] %>').submit();"><%=$key %></a>
-                  <input type="hidden" name="start_date" value="<%=$start_date %>"/>
-                  <input type="hidden" name="end_date" value="<%=$end_date %>"/>
-                  <input type="hidden" name="metrics" value="<%=$gagood->{$key}->[1] %>"/>
-                  <input type="hidden" name="caption" value="<%=$caption %>"/>
-                </form>
-              </td>
-            % }
-          % }
-        </tr>
-      </table>
-    </td>
-    <td>
-      <table border="1" id="virtable">
-        <tr>
-          <th bgcolor="#808080">現実値</th>
-          % if ($gabad) {
-            % foreach my $key (sort keys(%$gabad)) {
-              <td><%=$gabad->{$key}->[0] %></td>
-            % }
-          % }
-        </tr>
-      </table>
-    <td>
-      <table border="1" id="virtable">
-        <tr>
-          <th bgcolor="#808080">差</th>
-          % if ($gadiff) {
-            % foreach my $key (sort keys(%$gadiff)) {
-              % if ($gadiff->{$key} =~ /^\-/) {
-                <td style="color:red;"><%=$gadiff->{$key} %></td>
-              % } else {
-                <td><%=$gadiff->{$key} %></td>
-              % }
-            % }
-          % }
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+<div style="color:blue"><%= $src %></div>
 
 
 

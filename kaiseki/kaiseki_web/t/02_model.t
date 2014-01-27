@@ -23,6 +23,6 @@ my $kaiseki = Kaiseki::Model::Kaiseki->new;
 
 my @rows = $kaiseki->getCustomerinfo(1);
 
-my $d = $kaiseki->scrapeGadata($rows[0], $rows[1]);
+my $src = $kaiseki->scrapeGadata($rows[0], $rows[1]);
 
-
+print $src;
