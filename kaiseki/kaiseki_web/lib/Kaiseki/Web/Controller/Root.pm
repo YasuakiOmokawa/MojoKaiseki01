@@ -18,18 +18,18 @@ sub index {
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
-  my ($view_id) = $kaiseki->getgaviewid(2, 2);
 
   if ($start_date) {
 
     my $src;
     eval{
-
           my $kaiseki = Kaiseki::Model::Kaiseki->new;
           my @rows = $kaiseki->getCustomerinfo(1);
+          # `/myapp/mvc/kaiseki/kaiseki_web/t/opePhantomJS.sh start`;
           $src = $kaiseki->scrapeGadata($rows[0], $rows[1]);
-
+          # `/myapp/mvc/kaiseki/kaiseki_web/t/opePhantomJS.sh stop`;
     };
+    # $self->app->log->debug("src is $src");
 
     $self->stash->{error} = $@ if $@;
     $self->stash->{src} = $src;

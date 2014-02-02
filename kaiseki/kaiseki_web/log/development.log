@@ -195,3 +195,101 @@ Compilation failed in require at (eval 242) line 1.
 [Mon Jan 27 23:30:52 2014] [debug] Rendering cached template "layouts/default.html.ep".
 [Mon Jan 27 23:30:52 2014] [debug] 200 OK (10.141155s, 0.099/s).
 [Mon Jan 27 23:31:42 2014] [info] Listening at "'http://*:5000/'".
+[Tue Jan 28 00:47:56 2014] [info] Listening at "http://*:3000".
+[Tue Jan 28 00:48:14 2014] [debug] Your secret passphrase needs to be changed!!!
+[Tue Jan 28 00:48:14 2014] [debug] GET "/".
+[Tue Jan 28 00:48:15 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:48:15 2014] [debug] Rendering template "example/index.html.ep".
+[Tue Jan 28 00:48:15 2014] [debug] Rendering template "layouts/default.html.ep".
+[Tue Jan 28 00:48:15 2014] [debug] 200 OK (0.690040s, 1.449/s).
+[Tue Jan 28 00:48:30 2014] [debug] GET "/".
+[Tue Jan 28 00:48:30 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:51:30 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:51:30 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:51:30 2014] [debug] 200 OK (180.130955s, 0.006/s).
+[Tue Jan 28 00:53:37 2014] [info] Listening at "http://*:3000".
+[Tue Jan 28 00:53:52 2014] [debug] Your secret passphrase needs to be changed!!!
+[Tue Jan 28 00:53:52 2014] [debug] GET "/".
+[Tue Jan 28 00:53:52 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:53:52 2014] [debug] Rendering template "example/index.html.ep".
+[Tue Jan 28 00:53:52 2014] [debug] Rendering template "layouts/default.html.ep".
+[Tue Jan 28 00:53:52 2014] [debug] 200 OK (0.683277s, 1.464/s).
+[Tue Jan 28 00:54:05 2014] [debug] GET "/".
+[Tue Jan 28 00:54:05 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:54:13 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:54:13 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:54:13 2014] [debug] 200 OK (8.321476s, 0.120/s).
+[Tue Jan 28 00:54:13 2014] [debug] GET "/".
+[Tue Jan 28 00:54:13 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:54:16 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:54:16 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:54:16 2014] [debug] 200 OK (2.187264s, 0.457/s).
+[Tue Jan 28 00:55:05 2014] [debug] GET "/".
+[Tue Jan 28 00:55:05 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:55:07 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:55:07 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:55:07 2014] [debug] 200 OK (2.265390s, 0.441/s).
+[Tue Jan 28 00:57:22 2014] [info] Listening at "http://*:3000".
+[Tue Jan 28 00:57:34 2014] [debug] Your secret passphrase needs to be changed!!!
+[Tue Jan 28 00:57:34 2014] [debug] GET "/".
+[Tue Jan 28 00:57:34 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:57:34 2014] [debug] Rendering template "example/index.html.ep".
+[Tue Jan 28 00:57:34 2014] [debug] Rendering template "layouts/default.html.ep".
+[Tue Jan 28 00:57:34 2014] [debug] 200 OK (0.615935s, 1.624/s).
+[Tue Jan 28 00:57:43 2014] [debug] GET "/".
+[Tue Jan 28 00:57:43 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:57:45 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:57:45 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:57:45 2014] [debug] 200 OK (1.942112s, 0.515/s).
+[Tue Jan 28 00:58:58 2014] [debug] GET "/".
+[Tue Jan 28 00:58:58 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:59:00 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:59:00 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:59:00 2014] [debug] 200 OK (2.037307s, 0.491/s).
+[Tue Jan 28 00:59:47 2014] [debug] GET "/".
+[Tue Jan 28 00:59:47 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 00:59:55 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 00:59:55 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 00:59:55 2014] [debug] 200 OK (7.785888s, 0.128/s).
+[Tue Jan 28 01:03:53 2014] [debug] GET "/".
+[Tue Jan 28 01:03:53 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 01:03:56 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 01:03:56 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 01:03:56 2014] [debug] 200 OK (2.713208s, 0.369/s).
+[Tue Jan 28 01:04:12 2014] [debug] GET "/".
+[Tue Jan 28 01:04:12 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 01:04:14 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 01:04:14 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 01:04:14 2014] [debug] 200 OK (2.323813s, 0.430/s).
+[Tue Jan 28 01:04:14 2014] [debug] GET "/".
+[Tue Jan 28 01:04:14 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 01:04:16 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 01:04:16 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 01:04:16 2014] [debug] 200 OK (2.276007s, 0.439/s).
+[Tue Jan 28 01:04:48 2014] [debug] GET "/".
+[Tue Jan 28 01:04:48 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 01:04:51 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 01:04:51 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 01:04:51 2014] [debug] 200 OK (2.390562s, 0.418/s).
+[Tue Jan 28 01:04:51 2014] [debug] GET "/".
+[Tue Jan 28 01:04:51 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Tue Jan 28 01:04:53 2014] [debug] Rendering cached template "example/index.html.ep".
+[Tue Jan 28 01:04:53 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Tue Jan 28 01:04:53 2014] [debug] 200 OK (2.306239s, 0.434/s).
+[Sat Feb  1 23:11:00 2014] [info] Listening at "http://*:3000".
+[Sat Feb  1 23:11:06 2014] [debug] Your secret passphrase needs to be changed!!!
+[Sat Feb  1 23:11:06 2014] [debug] GET "/".
+[Sat Feb  1 23:11:09 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Sat Feb  1 23:11:09 2014] [debug] Rendering template "example/index.html.ep".
+[Sat Feb  1 23:11:09 2014] [debug] Rendering template "layouts/default.html.ep".
+[Sat Feb  1 23:11:09 2014] [debug] 200 OK (2.712386s, 0.369/s).
+[Sat Feb  1 23:11:19 2014] [debug] GET "/".
+[Sat Feb  1 23:11:19 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Sat Feb  1 23:11:22 2014] [debug] Rendering cached template "example/index.html.ep".
+[Sat Feb  1 23:11:22 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Sat Feb  1 23:11:22 2014] [debug] 200 OK (2.488292s, 0.402/s).
+[Sat Feb  1 23:14:14 2014] [debug] GET "/".
+[Sat Feb  1 23:14:14 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Sat Feb  1 23:14:23 2014] [debug] Rendering cached template "example/index.html.ep".
+[Sat Feb  1 23:14:23 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Sat Feb  1 23:14:23 2014] [debug] 200 OK (9.250570s, 0.108/s).

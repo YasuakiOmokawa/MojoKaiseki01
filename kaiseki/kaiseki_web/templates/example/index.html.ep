@@ -19,7 +19,5 @@
 <div style="color:red"><%= $error %></div>
 
 <!-- 比較結果表示 -->
-<div style="color:blue"><%= $src %></div>
-
-
+<div style="color:322CA4"><%= $src %></div>
 

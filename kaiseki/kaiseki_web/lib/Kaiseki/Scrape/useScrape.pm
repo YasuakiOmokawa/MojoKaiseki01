@@ -10,22 +10,21 @@ use Test::TCP;
 use IPC::Cmd;
 # use Test::More tests => 1;
 
-sub new {	
-	my $ua = $ARGV[0] || "my original user_agent";
+sub new {
 
-	# my $phamtomjs_server = Test::TCP->new(
-	#     code => sub {
-	#         my $port = shift;
-	#         #phantomjsのログがうざいので、IPC::Cmd::runで封じ込め
-	#         IPC::Cmd::run( command => ['phantomjs', '--ignore-ssl-errors', 'true', '--webdriver', $port], verbose => 0, buffer  => \my $buffer);
-	#     },
-	# );
+	my $phantomjs_server = Test::TCP->new(
+	    code => sub {
+	        # my $port = '4445';
+	        my $port = shift;
+	        #phantomjsのログがうざいので、IPC::Cmd::runで封じ込め
+	        IPC::Cmd::run( command => ['phantomjs', '--ignore-ssl-errors', 'true', '--webdriver', $port], verbose => 0, buffer  => \my $buffer);
+	    },
+	);
 
 	my $d = Selenium::Remote::Driver->new(
 	    remote_server_addr => '127.0.0.1',
-	    port => '4445',
-	    # port => $phamtomjs_server->port,
-	    extra_capabilities  => +{"phantomjs.page.settings.userAgent" => $ua },
+	    port => $phantomjs_server->port,
+	    # port => '4445',
 	    browser_name => 'phantomjs',
 	);
 	return $d;
