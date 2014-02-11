@@ -80,7 +80,7 @@ sub detail {
   my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
   eval{
         my @rows = $kaiseki->getCustomerinfo(1);
-        Mojo::IOLoop->timer(0.1 => sub { 
+        Mojo::IOLoop->timer(2 => sub { 
             $kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
           }
         );
