@@ -2,22 +2,19 @@
 % title 'Google Analytics ビューデータ比較 version 0.0.2';
 <h1>APIを使わないバージョン</h1>
 <pre>
-# 日付入力欄にはhtml5から追加されたinput type=date を使っています。
-# Google Chrome, Opera 以外はまだ普通のテキスト入力になっており、
-# 終了日付が開始日付より前だとエラーに成増。
-# 現在簡易モードにて運営中。日付は適当でも結果が出ます。
+# 開始ボタンで開始します
 </pre>
-<form action="/">
+<form action="/detail">
   <div>
-    <fieldset>
+<!--     <fieldset>
       <legend>期間(必須)</legend>
     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
-    <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br>
-    <input type="submit" value="比較開始" >
+    <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br> -->
+    <input type="submit" value="開始" >
   </div>
 </form>
 <div style="color:red"><%= $error %></div>
 
 <!-- 比較結果表示 -->
-<div style="color:322CA4"><%= $src %></div>
+<!-- <div style="color:322CA4"><%= $src %></div> -->
 

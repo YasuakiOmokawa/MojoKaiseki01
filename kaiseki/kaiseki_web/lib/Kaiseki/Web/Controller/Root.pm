@@ -2,9 +2,11 @@ package Kaiseki::Web::Controller::Root;
 
 use Mojo::Base 'Mojolicious::Controller';
 use Kaiseki::Model::Kaiseki;
+use Kaiseki::Model::KaisekiForScrape;
 use Storable;
 use Storable qw(nstore);
 use Carp 'croak';
+use Mojo::IOLoop;
 
 # Liteの、get '/' => sub {　部分
 sub index {
@@ -60,9 +62,33 @@ sub selectdetail {
 
 sub detail {
   my $self = shift;
-  # my $uranaikekka = $self->req->param('uranaikekka');
-  # $self->stash->{addkekka} = $uranaikekka;
+  $self->stash->{error} = '';
+  $self->stash->{src} = '';
+
+  # アナリティクスデータログの格納ファイルパス
+  my $homedir = $self->app->home;
+  my $filedir = $homedir . "/public/datas";
+  my $file = $filedir . "/" . "all_metrics.txt";
+
+  # dataファイル生成
+  # my @gadata = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . "<=0", $start_date, $end_date, $homedir);
+  # my $file = $filedir . "/" . "${view_id}.tsv";
+  # $kaiseki->savetoTsv( $file, @gadata);
+
+  # Web解析データの取得
+  my $kaiseki = Kaiseki::Model::Kaiseki->new;
+  my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
+  eval{
+        my @rows = $kaiseki->getCustomerinfo(1);
+        Mojo::IOLoop->timer(0.1 => sub { 
+            $kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
+          }
+        );
+  };
+
+  $self->stash->{error} = $@ if $@;
   $self->render('example/detail');
+  # Mojo::IOLoop->start;
 };
 
 

@@ -1,8 +1,13 @@
-% layout 'default';
+% layout 'detail';
 % title '詳細表示画面';
 
 <h1>分析結果を表示します</h1>
 <pre>
 # 詳細結果ページです。
 </pre>
-<div>詳細です</div>
+<div>成功：<span id="id_success"></span></div>
+<div>失敗：<span id="id_failure"></span></div>
+<!-- <input type="button" id="action" value="start" onclick="main()"> -->
+<div style="color:red"><%= $error %></div>
+<div style="color:322CA4"><%= $src %></div>
+

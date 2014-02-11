@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Data::Dumper;
 use JSON;
-# use utf8;
+use utf8;
 # use LWP::Simple;
 # use URI;
 # use Storable;
@@ -14,15 +14,31 @@ use FindBin;
 use lib "$FindBin::Bin/../lib";
 # Modelの利用
 use Kaiseki::Model::Kaiseki;
+use Kaiseki::Model::KaisekiForScrape;
 use feature 'say';
 use Storable;
 use Storable qw(nstore);
+use Mojo::IOLoop;
 
 # 以下にテストロジックを書く
+my $self = shift;
 my $kaiseki = Kaiseki::Model::Kaiseki->new;
+my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
 
 my @rows = $kaiseki->getCustomerinfo(1);
 
-my $src = $kaiseki->scrapeGadata($rows[0], $rows[1]);
+my $homedir = "$FindBin::Bin/..";
+my $filedir = $homedir . "/public/datas";
+my $file = $filedir . "/" . "all_metrics.txt";
 
-print $src;
+
+# Mojo::IOLoop->timer(3 => sub { say 'Reactor tick.' });
+Mojo::IOLoop->timer(1 => sub { 
+		$kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
+	}
+);
+
+say 'レンダリング開始やで';
+Mojo::IOLoop->start;
+
+
