@@ -1173,3 +1173,35 @@ Compilation failed in require at (eval 242) line 1.
 [Wed Feb 12 00:52:39 2014] [debug] Rendering template "example/detail.html.ep".
 [Wed Feb 12 00:52:39 2014] [debug] Rendering template "layouts/detail.html.ep".
 [Wed Feb 12 00:52:39 2014] [debug] 200 OK (0.074191s, 13.479/s).
+[Wed Feb 12 00:57:03 2014] [debug] Your secret passphrase needs to be changed!!!
+[Wed Feb 12 01:01:21 2014] [debug] Your secret passphrase needs to be changed!!!
+[Wed Feb 12 01:01:21 2014] [debug] GET "/".
+[Wed Feb 12 01:01:22 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Wed Feb 12 01:01:22 2014] [debug] Rendering template "example/index.html.ep".
+[Wed Feb 12 01:01:22 2014] [debug] Rendering template "layouts/default.html.ep".
+[Wed Feb 12 01:01:22 2014] [debug] 200 OK (0.682488s, 1.465/s).
+[Wed Feb 12 01:01:26 2014] [debug] GET "/detail".
+[Wed Feb 12 01:01:26 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "detail".
+[Wed Feb 12 01:01:26 2014] [debug] Rendering template "example/detail.html.ep".
+[Wed Feb 12 01:01:26 2014] [debug] Rendering template "layouts/detail.html.ep".
+[Wed Feb 12 01:01:26 2014] [debug] 200 OK (0.068263s, 14.649/s).
+[Wed Feb 12 01:01:56 2014] [debug] GET "/".
+[Wed Feb 12 01:01:56 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Wed Feb 12 01:01:56 2014] [debug] Rendering cached template "example/index.html.ep".
+[Wed Feb 12 01:01:56 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Wed Feb 12 01:01:56 2014] [debug] 200 OK (0.002347s, 426.076/s).
+[Wed Feb 12 01:01:59 2014] [debug] GET "/detail".
+[Wed Feb 12 01:01:59 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "detail".
+[Wed Feb 12 01:01:59 2014] [debug] Rendering cached template "example/detail.html.ep".
+[Wed Feb 12 01:01:59 2014] [debug] Rendering cached template "layouts/detail.html.ep".
+[Wed Feb 12 01:01:59 2014] [debug] 200 OK (0.029678s, 33.695/s).
+[Wed Feb 12 01:02:36 2014] [debug] GET "/".
+[Wed Feb 12 01:02:36 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Wed Feb 12 01:02:36 2014] [debug] Rendering cached template "example/index.html.ep".
+[Wed Feb 12 01:02:36 2014] [debug] Rendering cached template "layouts/default.html.ep".
+[Wed Feb 12 01:02:36 2014] [debug] 200 OK (0.002433s, 411.015/s).
+[Wed Feb 12 01:02:43 2014] [debug] GET "/detail".
+[Wed Feb 12 01:02:43 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "detail".
+[Wed Feb 12 01:02:43 2014] [debug] Rendering cached template "example/detail.html.ep".
+[Wed Feb 12 01:02:43 2014] [debug] Rendering cached template "layouts/detail.html.ep".
+[Wed Feb 12 01:02:43 2014] [debug] 200 OK (0.030646s, 32.631/s).

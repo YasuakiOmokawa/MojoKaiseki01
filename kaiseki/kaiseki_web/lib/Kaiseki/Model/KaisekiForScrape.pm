@@ -2,21 +2,15 @@ package Kaiseki::Model::KaisekiForScrape;
 
 use Mouse;
 use utf8;
-use Kaiseki::DB::connDB;
-use Kaiseki::GA::useGA;
 use Kaiseki::Scrape::useScrape;
 use Data::Dumper;
-use DateTime;
-use JSON;
-use LWP::Simple;
-use URI;
 # use Time::HiRes 'sleep';
 use Storable;
 use Storable qw(nstore);
 use Carp 'croak';
+use Web::Scraper;
 
 sub scrapeGadata {
-	use Web::Scraper;
 
 	my ($self, $email, $pass, $file) = @_;
 
@@ -47,9 +41,6 @@ sub scrapeGadata {
 	# 全体指標
 	$d->find_element('//*[@id="ID-overview-dimensionSummary-miniTable"]/div/div')->click();
 	wait_for_page_to_load($d,10000);
-
-# //*[@id="ID-rowTable"]/thead/tr[4]/td[3]/div[1]/div/div
-# //*[@id="ID-rowTable"]/thead/tr[4]/td[2]/div[1]/div/div
 
 	my $scraper = scraper {
 		# process '', 'PV数' => 'TEXT';
