@@ -2,9 +2,9 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="js/libs/prototype.js"></script>
-	<script type="text/javascript" src="js/sample.js"></script>
+    <script type="text/javascript" src="js/all_metrics.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css"> 
   </head>
   <body onload="main()"><%= content %></body>
 </html>

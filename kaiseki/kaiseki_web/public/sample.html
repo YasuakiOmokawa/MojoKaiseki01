@@ -1,15 +1,29 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja"><meta charset="UTF-8" />
-<head>
-	<title>Test</title>
-	
-<script type="text/javascript" src="js/libs/prototype.js"></script>
-<script type="text/javascript" src="js/sample.js"></script>
+    <head>
+        <title>Test</title>
 
-</head>
-<body onload="main()">
-<div>成功：<span id="id_success"></span></div>
-<div>失敗：<span id="id_failure"></span></div>
-<!-- <input type="button" id="action" value="start" onclick="main()"> -->
-</body>
+        <script type="text/javascript" src="js/libs/prototype.js"></script>
+        <!--<script type="text/javascript" src="js/sample.js"></script>-->
+        <script type="text/javascript" src="js/all_metrics.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"> 
+    </head>
+    <body onload="main()">
+        <table>
+            <td> 
+                <table border="0" class="centerali table-all-metrics"> 
+                    <caption >全体指標</caption>
+                    <thead>
+                        <tr class="metrics">
+                            <th >理想値</th>
+                            <th >指標</th>
+                            <th >現実値</th>
+                            <th >差</th>
+                        </tr>
+                    </thead>
+                    <tbody id="all_metrics"></tbody>
+                </table> 
+            </td> 
+        </table> 
+    </body>
 </html>

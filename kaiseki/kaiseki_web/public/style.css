@@ -12,14 +12,28 @@ border-bottom: 1px solid #999;
     display: block;
 }
 
-#virtable tr {
-    display: block;
+
+.metrics {
+    background-color: darkgray;
+    color: white;
 }
 
-#virtable th {
-    display: block;
-}
-#virtable td {
-    display: block;
+.cleared-row {
+    border: none;
+    color: #fff;
+    height: 18px;
 }
 
+caption { 
+    text-align: left;
+}
+
+table.centerali th,
+table.centerali td {
+    vertical-align: top;
+    text-align: center;
+}
+
+table.table-all-metrics {
+    /*height: 180px;*/
+}

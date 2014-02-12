@@ -10,14 +10,14 @@ function main(){
             {
 //  ■ success
 //  成功した場合に更新される要素
-                success         : 'id_success',
+                success         : 'all_metrics',
 
 //  ■ failure
 //  失敗した場合に更新される要素
                 failure         : 'id_failure'
             },
 
-            'datas/all_metrics.txt',    //  ここに URL を記載
+            'datas/all_metrics.html',    //  ここに URL を記載
          
             {
 //  ■ decay

@@ -36,7 +36,8 @@ sub scrapeGadata {
 
 	# 以下、データ取得
 
-	my $src;
+	my $src_ok;
+	my $src_bad;
 
 	# 全体指標
 	$d->find_element('//*[@id="ID-overview-dimensionSummary-miniTable"]/div/div')->click();
@@ -68,8 +69,8 @@ sub scrapeGadata {
 	$d->find_element('//*[@id="ID-explorer-table-tableControl"]/div/div[2]/div[2]/span[1]')->click();
 	wait_for_page_to_load($d,10000);
 
-	$src = $scraper->scrape($d->get_page_source);
-	saveToFile($file, $src);
+	$src_ok = $scraper->scrape($d->get_page_source);
+	# saveToFile($file, $src);
 
 	# 現実値
 	$d->find_element('//*[@id="ID-explorer-table-tableControl"]/div/div[1]/ul/li[2]/div')->click();
@@ -78,8 +79,8 @@ sub scrapeGadata {
 	$d->find_element('//*[@id="ID-explorer-table-tableControl"]/div/div[2]/div[2]/span[1]')->click();
 	wait_for_page_to_load($d,10000);
 
-	$src = $scraper->scrape($d->get_page_source);
-	saveToFile($file, $src);
+	$src_bad = $scraper->scrape($d->get_page_source);
+	saveToFile($file, $src_ok, $src_bad);
 	# print Dumper $scraper->scrape($d->get_page_source);
 	# $d->find_element('')->click();
 	# wait_for_page_to_load($d,3);
@@ -119,21 +120,49 @@ sub scrapeGadata {
 	}
 
 	sub saveToFile {
-		my ($file, $hashref) = @_;
+		my ($file, $hashref, $valueflg) = @_;
 		# -e $file and unlink $file;
 		while (my ($key, $val) = (each %$hashref)) {
-		# my @data;
-		# for my $str (keys $hash) {
-			# $str = join("\t", @$str);
-			# $str = $str . "\n";
-			# push @data, $str;
-			open( my $fh, '>>', $file) or die qq(can not open "$file" : $!);
+			open my $fh, "<", $file or die qq(can not open "$file" : $!);
+			my @file = <$fh>;
+			close $fh;
+			open $fh, '>>', $file or die qq(can not open "$file" : $!);
 			# open( my $fh, "$addmode", $file) or die qq(can not open "$file" : $!);
 			eval { flock($fh, 2); };
+		    foreach my $line (@file) {
+		    	chomp;
+		    	# ファイルに項目名があるなら連結処理
+		    	if ($line =~ /$key/) {
+		    		# それぞれの値の反対値と連結
+		    		if ($line =~ /ok-value/) {
+		    			if ($valueflg eq 'bad') {
+		    				print $fh $line . '<td class="ok-value">' . $val . '</td>' . '<td class="metrics">' . $key . '</td>' . '</tr>' . "\n";
+		    			}
+		    		}
+		    		elsif ($line =~ /bad-value/) {
+		    			if ($valueflg eq 'ok') {
+							print $fh '<tr>' . '<td class="ok-value">' . $val . '</td>' . '<td class="metrics">' . $key . '</td>' . $line . "\n";
+		    			}
+		    		}
+
+		        }
+
+		        
+		    }
+		    close $fh;
+
+
 			# print "$key and $val\n";
-			print $fh $key . "\t" . $val . "\n";
+			if ($valueflg eq 'ok') {
+				print $fh '<tr>' . '<td class="ok-value">' . $val . '</td>' . '<td class="metrics">' . $key . '</td>' . "\n";
+			}
+			elsif ($valueflg eq 'bad') {
+				print $fh '<tr>' . '<td class="ok-value">' . $val . '</td>' . '<td class="metrics">' . $key . '</td>' . "\n";
+			}
 			close $fh;
 			# print "saved_1line: $str\n";
+			# <tr><td class="ok-value">12</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>
+
 		}
 	}
 
