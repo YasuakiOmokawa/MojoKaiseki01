@@ -10,6 +10,30 @@ use Storable qw(nstore);
 use Carp 'croak';
 use Web::Scraper;
 
+sub createTemplate {
+	my ($self, $filedir) = @_;
+	my $file = $filedir . '/' . 'all_metrics.html';
+	open my $fh, '>', $file or die qq(can not open "$file" : $!);
+	eval { flock($fh, 2); };
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">訪問数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">平均PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">平均滞在時間</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">新規訪問率</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">リピート訪問率</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">リピート回数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">リピート間隔</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">直帰率</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="cleared-row"></td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">CV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">CVR</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	print $fh '<tr><td class="ok-value">0</td><td class="metrics">CV期間</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>',"\n";
+	close $fh;
+
+}
+
+
+
 sub scrapeGadata {
 
 	my ($self, $email, $pass, $file) = @_;
@@ -161,7 +185,6 @@ sub scrapeGadata {
 			}
 			close $fh;
 			# print "saved_1line: $str\n";
-			# <tr><td class="ok-value">12</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>
 
 		}
 	}

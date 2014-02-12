@@ -70,14 +70,12 @@ sub detail {
   my $filedir = $homedir . "/public/datas";
   my $file = $filedir . "/" . "all_metrics.txt";
 
-  # dataファイル生成
-  # my @gadata = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . "<=0", $start_date, $end_date, $homedir);
-  # my $file = $filedir . "/" . "${view_id}.tsv";
-  # $kaiseki->savetoTsv( $file, @gadata);
+  # テンプレートファイル生成
+  my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
+  $kaiseki_scrape->createTemplate($filedir);
 
   # Web解析データの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
-  my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
   eval{
         my @rows = $kaiseki->getCustomerinfo(1);
         Mojo::IOLoop->timer(2 => sub { 

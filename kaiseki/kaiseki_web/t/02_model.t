@@ -25,20 +25,21 @@ my $self = shift;
 my $kaiseki = Kaiseki::Model::Kaiseki->new;
 my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
 
-my @rows = $kaiseki->getCustomerinfo(1);
 
 my $homedir = "$FindBin::Bin/..";
 my $filedir = $homedir . "/public/datas";
 my $file = $filedir . "/" . "all_metrics.txt";
+$kaiseki_scrape->createTemplate($filedir);
 
 
+my @rows = $kaiseki->getCustomerinfo(1);
 # Mojo::IOLoop->timer(3 => sub { say 'Reactor tick.' });
-Mojo::IOLoop->timer(1 => sub { 
+Mojo::IOLoop->timer(2 => sub { 
 		$kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
 	}
 );
 
 say 'レンダリング開始やで';
-Mojo::IOLoop->start;
+# Mojo::IOLoop->start;
 
 
