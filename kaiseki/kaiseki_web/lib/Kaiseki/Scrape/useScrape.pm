@@ -22,10 +22,14 @@ sub new {
 	);
 
 	my $d = Selenium::Remote::Driver->new(
-	    remote_server_addr => '127.0.0.1',
+	    # remote_server_addr => '127.0.0.1',
 	    port => $phantomjs_server->port,
 	    # port => '4445',
-	    browser_name => 'phantomjs',
+	    # browser_name => 'chrome',
+	    # browser_name => 'phantomjs',
+	    # extra_capabilities => { "phantomjs.page.settings.userAgent" => 'SpecialAgent',
+	    						# "phantomjs.page.saveUnsupportedContent" => 'C:\\history.tsv',
+	    					# },
 	);
 	return $d;
 }

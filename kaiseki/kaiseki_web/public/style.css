@@ -1,23 +1,12 @@
-#virtable　{
-/*width:780px;*/
-margin-left:auto;
-margin-right:auto;
-border-top: 1px solid #999;
-border-left: 1px solid #999;
-border-right: 1px solid #999;
-border-bottom: 1px solid #999;
-}
+/* ここから、テーブルの設定 */
 
-#virtable tbody {
-    display: block;
-}
-
-
+/*要素部分の設定*/
 .metrics {
-    background-color: darkgray;
-    color: white;
+    background-color: gainsboro;
+    color: black;
 }
 
+/*テーブル行の透明化*/
 .cleared-row {
     border: none;
     color: #fff;
@@ -26,14 +15,30 @@ border-bottom: 1px solid #999;
 
 caption { 
     text-align: left;
+    font-size: 14px;
 }
 
-table.centerali th,
-table.centerali td {
-    vertical-align: top;
-    text-align: center;
+/*テーブル共通設定（文字揃えなど）*/
+table.tbl-common td {
+    vertical-align: top; /*テキスト水平位置*/
+    text-align: center; /*テキスト垂直位置*/
+    border: solid darkgrey 1px;
+    font-size: 12px;
+}
+table.tbl-common td.bad-value {
+    border-right:double darkgray; /*差の所だけ二重罫線*/
 }
 
-table.table-all-metrics {
-    /*height: 180px;*/
+/*全体指標テーブル固有設定*/
+table.tbl-all-metrics {
+    width: 350px;
+    border: solid gainsboro 1px;
+    border-collapse: collapse;
 }
+table.tbl-all-metrics td {
+    width: 70px;
+}
+
+/* ここまで、テーブルの設定 */
+
+

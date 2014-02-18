@@ -9,18 +9,12 @@
 <!-- 全体指標テーブル -->
 <table>
     <td> 
-        <table border="0" class="centerali table-all-metrics"> 
-            <caption >全体指標</caption>
-            <thead>
-                <tr class="metrics">
-                    <th >理想値</th>
-                    <th >指標</th>
-                    <th >現実値</th>
-                    <th >差</th>
-                </tr>
-            </thead>
-            <tbody id="all_metrics"></tbody>
+        <table class="tbl-common tbl-all-metrics"> 
+            <caption >全体指標（サイト全体）</caption>
+            <tbody id="tbl_all_metrics"></tbody>
         </table> 
     </td> 
-</table> 
+</table>
+        
+        
 

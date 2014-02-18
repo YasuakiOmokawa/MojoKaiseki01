@@ -68,7 +68,7 @@ sub detail {
   # アナリティクスデータログの格納ファイルパス
   my $homedir = $self->app->home;
   my $filedir = $homedir . "/public/datas";
-  my $file = $filedir . "/" . "all_metrics.txt";
+  my $file = $filedir . "/" . "allmetrics.txt";
 
   # テンプレートファイル生成
   my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
