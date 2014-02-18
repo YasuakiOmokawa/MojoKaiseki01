@@ -1,14 +1,17 @@
-page = (require 'webpage').create()
+page = require("webpage").create()
+system = require "system"
+userName = system.args[1]
+password = system.args[2]
+
 # phantom.injectJs('libs/javascript-xpath-latest.js')
 
 callbacks = [
 	-> # ログイン画面の処理
-	page.evaluate ->
-		document.getElementById('Email').value = ""
-		document.getElementById('Passwd').value = ""
-		e = document.createEvent('MouseEvents')
-		e.initEvent('click', false, true)
-		document.getElementById('signIn').dispatchEvent(e)
+	page.evaluate ((userName, password) ->
+		document.querySelector("#email").value = userName
+		document.querySelector("#pass").value = userName
+		document.querySelector("#login_form").submit()
+		), userName, password
 
 	# -> # すべてのウェブサイトのデータリンクをクリック
 	# page.evaluate ->
@@ -29,4 +32,4 @@ page.onLoadFinished = ->
 page.onUnsupportedContentReceived = (response) ->
 	page.saveUnsupportedContent('pageviews.tsv', response.id)
 
-page.open 'https://accounts.google.com/ServiceLogin?service=analytics&passive=true&nui=1&hl=ja&continue=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja&followup=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja'
+page.open "https://www.facebook.com/"
