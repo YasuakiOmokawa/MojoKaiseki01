@@ -18,8 +18,8 @@ page.onInitialized = ->
     , false
 
 # Content-Disposition: attachment なレスポンスが返された時に呼び出されるコールバック
-page.onUnsupportedContentReceived = (response) ->
-  page.saveUnsupportedContent('history.tsv', response.id)
+# page.onUnsupportedContentReceived = (response) ->
+#   page.saveUnsupportedContent('history.tsv', response.id)
 
 class Actions
   actions: []
@@ -85,6 +85,7 @@ actions.add
   name: "start"
   after: ->
     # URLを指定して開く
+    page.viewportSize = { width: 768, height: 1240 }
     page.open("https://accounts.google.com/ServiceLogin?service=analytics&passive=true&nui=1&hl=ja&continue=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja&followup=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja")
 
 actions.add
@@ -113,77 +114,19 @@ actions.add
     from_date: FROM_DATE
     to_date: TO_DATE
   evaluate: (params) ->
-    # タイトルを表示(onConsoleMessageを定義してるから出力を確認出来る)
-    # console.log $( "title" ).text()
     console.log document.title
-    # from_date: params.from_date
-    # to_date: params.to_date
-    # base_url: 'https://www.google.com/analytics/web/?hl=ja&pli=1#report/visitors-overview/a36581569w64727418p66473324/'
-    # console.log location.href
     xresult = document.evaluate('//*[@id="8-row-a36581569w64727418p66473324"]/td[2]/div/div/a', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
-    e = document.createEvent('MouseEvents')
-    e.initEvent('click',false,true)
-    # document.getElementById('ID-accountTable').dispatchEvent(e)
-    # xresult = document.evaluate('//*[@id="8-row-a36581569w64727418p66473324"]/td[2]/div/div/a', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
-    # xresult = document.evaluate('//*[@id="8-row-a36581569w64727418p66473324"]/td[2]/div/div/a', document, null, 9, null)
-    console.log xresult
-    console.log xresult.snapshotItem(0)
-    xresult.snapshotItem(0).dispatchEvent(e)
-    console.log xresult.snapshotLength
-    # console.log xresult.snapshotLength
-    # console.log xresult.singleNodeValue
-    # after_url: xresult.singleNodeValue
-    # xresult.singleNodeValue.click()
-    # xresult.singleNodeValue.click();
-  # after: (result) ->
-  #   phantom.exit()
-    # URLを指定して開く
-    # page.open(result.after_url)
-    # console.log result.base_url
-    # console.log result.from_date
-    # console.log result.to_date
-    # page.open('https://www.google.com/analytics/web/?hl=ja&pli=1#report/visitors-overview/a36581569w64727418p66473324/')
-    # page.open('https://www.google.com/analytics/web/?hl=ja&pli=1#report/visitors-overview/a36581569w64727418p66473324/%3F_u.date00%3D20121001%26_u.date01%3D20130430')
-    # page.open(result.base_url + '%3F_u.date00%3D' + result.from_date + '%26_u.date01%3D' + result.to_date)
-    # afterで参照する用のオブジェクトを定義し、return
-    # titles: titles
-#  after: (result) ->
-    # evaluateの返り値をresultとして受け取っている
-
-    # ファイルに書き込み
- #   fs.write "result.json", JSON.stringify(result.titles), true
+    offset_left: xresult.snapshotItem(0).offsetLeft
+    offset_top: xresult.snapshotItem(0).offsetTop
+  after: (result) ->
+    page.sendEvent('click', result.offset_left, result.offset_top)
 
 actions.add
-  name: "filter_set_start"
-	delay: 1000
-	render: true
-	evaluate: ->
-    console.log document.title
-    # e = document.createEvent('MouseEvents')
-    # e.initEvent('click',false,true)
-    # document.getElementById('#ID-overview-graphOptions > div._GAK1b > div._GAPdb > div._GACEb > div > div.ID-buttonText._GAa-_GAs-_GAt._GAef').dispatchEvent(e)
-
-
-# actions.add
-# 	name: "filter_set_2"
-# 	evaluate ->
-# 		$.xfind("").click()
-		
-# actions.add
-# 	name: "filter_set_end"
-# 	evaluate ->
-# 		$.xfind("").click()
-
-# actions.add
-# 	name: "tsv_download_start"
-# 	delay: 2000
-# 	render: true
-# 	evaluate ->
-# 		$.xfind("").click()
-
-# actions.add
-# 	name: "tsv_download_end"
-# 	evaluate ->
-# 		$.xfind("").click()
+  name: "second_link"
+  delay: 3000
+  render: true
+  before: ->
+    page.title
+    
 		
 actions.run()
