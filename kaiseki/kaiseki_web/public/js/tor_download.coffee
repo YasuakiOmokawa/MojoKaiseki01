@@ -85,26 +85,8 @@ actions.add
   name: "start"
   after: ->
     # URLを指定して開く
-    page.viewportSize = { width: 768, height: 1240 }
-    page.open("https://accounts.google.com/ServiceLogin?service=analytics&passive=true&nui=1&hl=ja&continue=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja&followup=https%3A%2F%2Fwww.google.com%2Fanalytics%2Fweb%2F%3Fhl%3Dja")
-
-actions.add
-  name: "login"
-  render: true  #自動でlogin.pngとしてキャプチャ撮る
-  before: ->
-    # evaluateで参照する用のオブジェクトを定義し、return
-    user_id: USER_ID
-    password: PASSWORD
-  evaluate: (params) ->
-    # beforeの返り値をparamsとして受け取っている
-
-    # 開いたページ内での処理(jQuery読み込み済み)
-    document.querySelector("#Email").value = params.user_id
-    document.querySelector("#Passwd").value = params.password
-    document.querySelector("#gaia_loginform").submit()
-    # $("#Email").val(params.user_id)
-    # $("#Passwd").val(params.password)
-    # $("#gaia_loginform").submit()
+    page.viewportSize = { width: 768, height: 1270 }
+    page.open 'http://www.torrent-anime.com/'
 
 actions.add
   name: "first_link"
@@ -115,27 +97,31 @@ actions.add
     to_date: TO_DATE
   evaluate: (params) ->
     console.log document.title
-    xresult = document.evaluate('//*[@id="8-row-a36581569w64727418p66473324"]/td[2]/div/div/a', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
-    res_url = encodeURI(xresult.snapshotItem(0))
-    # res_url = xresult.snapshotItem(0)
-    console.log 'URL is ' + res_url
-    offset_left: xresult.snapshotItem(0).offsetLeft
-    offset_top: xresult.snapshotItem(0).offsetTop
-    base_url: res_url
-  after: (result) ->
+    # xresult = document.evaluate('//*[@id="wpLoadingButton"]', document, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null)
+    # document.querySelector('div#wpLoadingButton')
+    result = document.querySelector('div#wpLoadingButton')
+    console.log result.offsetLeft
+    console.log result.offsetTop
+    evt = document.createEvent("MouseEvents")
+    evt.initEvent("click", false, false)
+    result.dispatchEvent(evt)
+    # offset_left: result.offsetLeft
+    # offset_top: result.offsetTop
+
+    # base_url: res_url
+  # after: (result) ->
     # url = encodeURI(result.base_url)
-    url = result.base_url
-    page.open url
-    console.log 'Result_url is ' + url
+    # url = result.base_url
+    # page.open url
+    # console.log 'Result_url is ' + url
     # page.open 'https://www.google.com/analytics/web/?hl=ja#report/visitors-overview/a36581569w64727418p66473324/'
     # page.sendEvent('click', result.offset_left, result.offset_top)
-
+    
 actions.add
   name: "second_link"
-  delay: 3000
+  delay: 2000
   render: true
   evaluate: ->
     console.log document.title
-    
 		
 actions.run()
