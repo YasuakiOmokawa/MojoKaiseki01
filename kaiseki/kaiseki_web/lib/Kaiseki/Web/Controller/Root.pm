@@ -3,6 +3,7 @@ package Kaiseki::Web::Controller::Root;
 use Mojo::Base 'Mojolicious::Controller';
 use Kaiseki::Model::Kaiseki;
 use Kaiseki::Model::KaisekiForScrape;
+use Kaiseki::GA::useGA;
 use Storable;
 use Storable qw(nstore);
 use Carp 'croak';
@@ -16,15 +17,57 @@ sub index {
   $self->stash->{start_date} = $start_date;
   $self->stash->{end_date} = $end_date;
   $self->stash->{error} = '';
-  $self->stash->{src} = '';
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
+  my ($view_id) = $kaiseki->getgaviewid(1, 1);
 
   if ($start_date) {
 
-    my $src;
     eval{
+      # アナリティクス認証データの取得
+        my ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
+        my $analytics = Kaiseki::GA::useGA->new(
+          $client_id,
+          $client_secret,
+          $refresh_token
+        );
+
+
+        # アナリティクスデータログの格納ファイルパス
+        my $homedir = $self->app->home;
+        my $filedir = $homedir . "/public/datas/" . $client_id;
+
+        # 比較用のデータファイル名
+        my $gfile = $filedir . "/" . "${view_id}_good.dat";
+        my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+
+        # ハッシュ生成(ファイルを生成したあとでサービス上限の節約をしたいときはここコメントアウトしてちょ)
+        # my %gagood = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . ">0", $start_date, $end_date, $homedir);
+        my %gabad = $kaiseki->get_ga_graph(
+          $analytics,
+          $view_id,
+          $filter_param . "<=0",
+          $start_date,
+          $end_date,
+          $metrics,
+          $homedir
+        );
+        # nstore \%gagood, $gfile;
+        # nstore \%gabad, $bfile;
+
+        # ハッシュ読み出し
+        $gagood = retrieve($gfile);
+        $gabad = retrieve($bfile);
+
+        # 英語から日本語へ変換
+        $gagood = $kaiseki->entoJp($gagood);
+        $gabad = $kaiseki->entoJp($gabad);
+
+        # 差分の生成
+        # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
+        $gadiff = $kaiseki->diffGahash($gabad, $gagood);
+
           my $kaiseki = Kaiseki::Model::Kaiseki->new;
           my @rows = $kaiseki->getCustomerinfo(1);
           # `/myapp/mvc/kaiseki/kaiseki_web/t/opePhantomJS.sh start`;

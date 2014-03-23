@@ -23,26 +23,36 @@ use Kaiseki::GA::useGA;
 
 # 以下にテストロジックを書く
 my $self = shift;
+# アナリティクスビューIDの取得
 my $kaiseki = Kaiseki::Model::Kaiseki->new;
-my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
+my ($view_id) = $kaiseki->getgaviewid(1, 1);
 
-
-my $homedir = "$FindBin::Bin/..";
-my $filedir = $homedir . "/public/datas";
-my $file = $filedir . "/" . "tbl_all_metrics.html";
-# $kaiseki_scrape->createTemplate($file);
-
-
-my @rows = $kaiseki->getCustomerinfo(1);
-# Mojo::IOLoop->timer(3 => sub { say 'Reactor tick.' });
-Mojo::IOLoop->timer(2 => sub { 
-		$kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
-	}
+# アナリティクス認証データの取得
+my ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
+my $analytics = Kaiseki::GA::useGA->new(
+  $client_id,
+  $client_secret,
+  $refresh_token
 );
 
-say 'レンダリング開始やで';
-Mojo::IOLoop->start;
+my $homedir = "$FindBin::Bin/..";
+my $filedir = $homedir . "/public/datas/" . $client_id;
 
+# 比較用のデータファイル名
+my $gfile = $filedir . "/" . "${view_id}_good.dat";
+my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+
+# ハッシュ生成(ファイルを生成したあとでサービス上限の節約をしたいときはここコメントアウトしてちょ)
+# my %gagood = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . ">0", $start_date, $end_date, $homedir);
+my %gabad = $kaiseki->get_ga_graph(
+  $analytics,
+  $view_id,
+  "ga:goal1Value<=0",
+  '2012-10-01',
+  '2013-04-30',
+  'ga:pageviews',
+  $homedir
+);
 
 # my $html = '<tr><td class="ok-value">0</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>';
 # my $text = 'PV数';
