@@ -545,10 +545,16 @@ sub get_ga_graph {
 	my $res = $analytics->retrieve($req);
 	die("Error: " . $res->error_message) if !$res->is_success;
 	# 取得内容確認
-	# print Dumper $res;
+	# print Dumper \$res;
 	if ($res->total_results >= 1) {
-		foreach my $key ($res->{rows}) {
-			print "\$key: ", $key, " value: ", $res->{rows}->[0], "\n";
+		my $index = 0;
+		foreach my $row ($res->{rows}) {
+			foreach my  ($row) {
+				# print $element->[0],"\n";
+				print "date: ", $row->[$index]->[0], " value: ", $row->[$index]->[1], "\n";
+				$index = $index + 1;
+			# print Dumper $row, "\n";
+			}
 		}
 	}
 	# 	push @header, $key;
