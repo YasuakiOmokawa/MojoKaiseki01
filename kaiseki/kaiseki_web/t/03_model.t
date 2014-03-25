@@ -48,8 +48,8 @@ my %gabad = $kaiseki->get_ga_graph(
   $analytics,
   $view_id,
   "ga:goal1Value<=0",
-  '2012-10-01',
-  '2013-04-30',
+  '2012-12-05',
+  '2013-01-05',
   'ga:pageviews',
   $homedir
 );

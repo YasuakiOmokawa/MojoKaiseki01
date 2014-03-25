@@ -1,0 +1,8 @@
+Selenium::Remote::WebElement=HASH(0x1776acd0)
+Selenium::Remote::WebElement=HASH(0xda7fca0)
+Selenium::Remote::WebElement=HASH(0x1db469a0)
+直帰率 : 0.00
+訪問数 : 0.00%
+新規訪問率 : 49.03% 
+平均滞在時間 : 0.00%
+平均PV数 : 00:00:00

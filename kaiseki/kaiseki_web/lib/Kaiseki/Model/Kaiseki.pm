@@ -545,46 +545,19 @@ sub get_ga_graph {
 	my $res = $analytics->retrieve($req);
 	die("Error: " . $res->error_message) if !$res->is_success;
 	# 取得内容確認
-	print Dumper $res;
-	return $res;
-
-
-	# メトリクス取得
-	# GoogleアナリティクスAPIの一覧を公式リファレンスから取得
-	# my $atnd_api = URI->new('https://www.googleapis.com/analytics/v3/metadata/ga/columns?pp=1');
-	# my $json = get($atnd_api->as_string);
-
-	# jsonデータのファイル
- #  my $filedir = $homedir . "/public/datas/gaapi_json";
-	# my $file = $filedir . "/" . 'gaapiv3json.dat';
-
-	# my $gaapi_data = JSON->new()->decode($json);
-	# nstore $gaapi_data, $file;
-
-	# jsonデータ読み出し
-	# my $gaapi_data = retrieve($file);
-
-	# アナリティクスAPIを使ってデータをリクエスト
-	# my @metricses;
-	# push @metricses, $metrics;
-	# my @header;
-	# my @body;
-	# my %data;
-	# my $res = Kaiseki::GA::useGA->new(
-	# 	$client_id,
-	# 	$client_secret,
-	# 	$refresh_token
-	# );
-	# @metricses = ();
-	# foreach my $key (keys($res->{_totals})) {
-		# print "\$key: ", $key, " value: ", $res->_totals->{$key}, "\n";
-		# push @header, $key;
-		# push @body, $res->_totals->{$key};
-		# $data{$key} = $res->_totals->{$key};
-		# (my $orgkey = $key) =~ s/(_[a-z])/uc($&)/ge;
-		# $orgkey =~ s/_//g;
-		# $orgkey = 'ga:' . $orgkey;
-		# $data{$key} = [ $res->_totals->{$key}, $orgkey ];
+	# print Dumper $res;
+	if ($res->total_results >= 1) {
+		foreach my $key ($res->{rows}) {
+			print "\$key: ", $key, " value: ", $res->{rows}->[0], "\n";
+		}
+	}
+	# 	push @header, $key;
+	# 	push @body, $res->_totals->{$key};
+	# 	$data{$key} = $res->_totals->{$key};
+	# 	(my $orgkey = $key) =~ s/(_[a-z])/uc($&)/ge;
+	# 	$orgkey =~ s/_//g;
+	# 	$orgkey = 'ga:' . $orgkey;
+	# 	$data{$key} = [ $res->_totals->{$key}, $orgkey ];
 	# my @data;
 	# push @data, \@header;
 	# push @data, \@body;

@@ -1,0 +1,162 @@
+$VAR1 = bless( {
+                 '_column_headers' => [
+                                        {
+                                          'column_type' => 'DIMENSION',
+                                          'data_type' => 'STRING',
+                                          'name' => 'date'
+                                        },
+                                        {
+                                          'column_type' => 'METRIC',
+                                          'data_type' => 'INTEGER',
+                                          'name' => 'pageviews'
+                                        }
+                                      ],
+                 'profile_info' => {
+                                     'tableId' => 'ga:66473324',
+                                     'accountId' => '36581569',
+                                     'profileId' => '66473324',
+                                     'profileName' => "\x{e3}\x{81}\x{99}\x{e3}\x{81}\x{b9}\x{e3}\x{81}\x{a6}\x{e3}\x{81}\x{ae}\x{e3}\x{82}\x{a6}\x{e3}\x{82}\x{a7}\x{e3}\x{83}\x{96}\x{e3}\x{82}\x{b5}\x{e3}\x{82}\x{a4}\x{e3}\x{83}\x{88}\x{e3}\x{81}\x{ae}\x{e3}\x{83}\x{87}\x{e3}\x{83}\x{bc}\x{e3}\x{82}\x{bf}",
+                                     'internalWebPropertyId' => '64727418',
+                                     'webPropertyId' => 'UA-36581569-1'
+                                   },
+                 '_totals' => {
+                                'pageviews' => '296'
+                              },
+                 'start_index' => undef,
+                 'rows' => [
+                             bless( [
+                                      '20121205',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121206',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121207',
+                                      '13'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121208',
+                                      '2'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121209',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121210',
+                                      '52'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121211',
+                                      '32'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121212',
+                                      '10'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121213',
+                                      '25'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121214',
+                                      '13'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121215',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121216',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121217',
+                                      '14'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121218',
+                                      '44'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121219',
+                                      '17'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121220',
+                                      '2'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121221',
+                                      '18'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121222',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121223',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121224',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121225',
+                                      '11'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121226',
+                                      '2'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121227',
+                                      '7'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121228',
+                                      '8'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121229',
+                                      '6'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121230',
+                                      '1'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20121231',
+                                      '14'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20130101',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20130102',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20130103',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20130104',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' ),
+                             bless( [
+                                      '20130105',
+                                      '0'
+                                    ], 'Net::Google::Analytics::Row_0' )
+                           ],
+                 'is_success' => 1,
+                 'message' => 'OK',
+                 'contains_sampled_data' => bless( do{\(my $o = 0)}, 'JSON::PP::Boolean' ),
+                 'total_results' => 32,
+                 'items_per_page' => 1000,
+                 'code' => '200'
+               }, 'Net::Google::Analytics::Response' );

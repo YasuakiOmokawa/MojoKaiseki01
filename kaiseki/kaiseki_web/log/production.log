@@ -104,3 +104,11 @@ template example/index.html.ep has too many errors.
 [Tue Dec 17 00:23:23 2013] [info] Manager 2848 started.
 [Tue Dec 17 00:23:23 2013] [info] Upgrade successful, stopping 2836.
 [Tue Dec 17 00:23:24 2013] [info] Creating process id file "/myapp/mvc/kaiseki/kaiseki_web/script/hypnotoad.pid".
+[Mon Mar 24 10:34:56 2014] [error] can not open "/myapp/mvc/kaiseki/kaiseki_web/public/datas" : ãã£ã¬ã¯ããªã§ã at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/KaisekiForScrape.pm line 16.
+
+[Mon Mar 24 16:39:57 2014] [error] can not open "/myapp/mvc/kaiseki/kaiseki_web/public/datas" : ãã£ã¬ã¯ããªã§ã at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/KaisekiForScrape.pm line 16.
+
+[Mon Mar 24 22:37:24 2014] [error] can not open "/myapp/mvc/kaiseki/kaiseki_web/public/datas" : ãã£ã¬ã¯ããªã§ã at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/KaisekiForScrape.pm line 16.
+
+[Mon Mar 24 22:38:30 2014] [error] can not open "/myapp/mvc/kaiseki/kaiseki_web/public/datas" : ãã£ã¬ã¯ããªã§ã at /myapp/mvc/kaiseki/kaiseki_web/script/../lib/Kaiseki/Model/KaisekiForScrape.pm line 16.
+

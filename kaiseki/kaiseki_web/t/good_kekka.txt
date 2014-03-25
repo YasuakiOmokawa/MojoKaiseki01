@@ -1,0 +1,33 @@
+$VAR1 = bless( {
+                 '_column_headers' => [
+                                        {
+                                          'column_type' => 'DIMENSION',
+                                          'data_type' => 'STRING',
+                                          'name' => 'date'
+                                        },
+                                        {
+                                          'column_type' => 'METRIC',
+                                          'data_type' => 'INTEGER',
+                                          'name' => 'pageviews'
+                                        }
+                                      ],
+                 'profile_info' => {
+                                     'tableId' => 'ga:66473324',
+                                     'accountId' => '36581569',
+                                     'profileId' => '66473324',
+                                     'profileName' => "\x{e3}\x{81}\x{99}\x{e3}\x{81}\x{b9}\x{e3}\x{81}\x{a6}\x{e3}\x{81}\x{ae}\x{e3}\x{82}\x{a6}\x{e3}\x{82}\x{a7}\x{e3}\x{83}\x{96}\x{e3}\x{82}\x{b5}\x{e3}\x{82}\x{a4}\x{e3}\x{83}\x{88}\x{e3}\x{81}\x{ae}\x{e3}\x{83}\x{87}\x{e3}\x{83}\x{bc}\x{e3}\x{82}\x{bf}",
+                                     'internalWebPropertyId' => '64727418',
+                                     'webPropertyId' => 'UA-36581569-1'
+                                   },
+                 '_totals' => {
+                                'pageviews' => '0'
+                              },
+                 'start_index' => undef,
+                 'rows' => [],
+                 'is_success' => 1,
+                 'message' => 'OK',
+                 'contains_sampled_data' => bless( do{\(my $o = 0)}, 'JSON::PP::Boolean' ),
+                 'total_results' => 0,
+                 'items_per_page' => 1000,
+                 'code' => '200'
+               }, 'Net::Google::Analytics::Response' );
