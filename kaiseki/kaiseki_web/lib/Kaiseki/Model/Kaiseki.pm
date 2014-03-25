@@ -524,7 +524,7 @@ sub getCustomerinfo {
 }
 
 sub get_ga_graph {
-	# グラフデータの抽出と再構築
+	# グラフテンプレートへ理想値と現実値を挿入し、差を計算する
 	my ($self,
 		$analytics,
 		$view_id,
@@ -532,45 +532,96 @@ sub get_ga_graph {
 		$start_date,
 		$end_date,
 		$metrics,
-		$homedir ) = @_;
+		$homedir,
+		%ga_graph ) = @_;
 
-	my $req = $analytics->new_request(
-		ids					=> "ga:$view_id",
-		metrics			=> "$metrics",
-		start_date	=> "$start_date",
-		end_date		=> "$end_date",
-		filters			=> "$filter_param",
-		dimensions  => "ga:date"
-	);
-	my $res = $analytics->retrieve($req);
-	die("Error: " . $res->error_message) if !$res->is_success;
-	# 取得内容確認
-	# print Dumper \$res;
-	if ($res->total_results >= 1) {
-		my $index = 0;
-		foreach my $row ($res->{rows}) {
-			foreach my  ($row) {
-				# print $element->[0],"\n";
-				print "date: ", $row->[$index]->[0], " value: ", $row->[$index]->[1], "\n";
-				$index = $index + 1;
-			# print Dumper $row, "\n";
+	foreach my $filtering_sign ("<=0", ">0") {
+		my $filter = $filter_param . $filtering_sign;
+		print "\$filtering_parameter is: " . $filter,"\n";
+		my $req = $analytics->new_request(
+			ids					=> "ga:$view_id",
+			metrics			=> "$metrics",
+			start_date	=> "$start_date",
+			end_date		=> "$end_date",
+			filters			=> "$filter",
+			dimensions  => "ga:date"
+		);
+		my $res = $analytics->retrieve($req);
+		die("Error: " . $res->error_message) if !$res->is_success;
+		# 取得内容確認し、返却数が1以上ならテンプレートの書き換えを行う
+		# print Dumper \$res;
+		if ($res->total_results >= 1) {
+			my $index = 0;
+			my $row_ref = $res->{rows};
+			my $length = @{$row_ref};
+			# print $length, "\n";
+			while ($index < $length) {
+				# 理想値、現実値を判別してテンプレートに値を挿入する
+				if ($filter_param =~ />/) {
+					$ga_graph{ $row_ref->[$index]->[0] }->{good} = $row_ref->[$index]->[1];
+				}
+				else {
+					$ga_graph{ $row_ref->[$index]->[0] }->{bad} = $row_ref->[$index]->[1];
+				}
+				# diff値を計算する（ここに入れていいか？）
+				$ga_graph{ $row_ref->[$index]->[0] }->{diff} = $ga_graph{ $row_ref->[$index]->[0] }->{bad} - $ga_graph{ $row_ref->[$index]->[0] }->{good};
+				$index++;
 			}
 		}
 	}
-	# 	push @header, $key;
-	# 	push @body, $res->_totals->{$key};
-	# 	$data{$key} = $res->_totals->{$key};
-	# 	(my $orgkey = $key) =~ s/(_[a-z])/uc($&)/ge;
-	# 	$orgkey =~ s/_//g;
-	# 	$orgkey = 'ga:' . $orgkey;
-	# 	$data{$key} = [ $res->_totals->{$key}, $orgkey ];
-	# my @data;
-	# push @data, \@header;
-	# push @data, \@body;
-	# return @data;
-	# print Dumper @data;
-	# print Dumper %data;
-	# return %data;
+	# print Dumper \%ga_graph,"\n";
+	return %ga_graph;
+}
+
+sub get_ga_graph_template {
+	# 開始日、終了日からグラフの材料になるハッシュリファレンスを返す
+	use Calendar;
+	use Calendar::Japanese::Holiday;
+	my ($self, $start_date, $end_date) = @_;
+
+	# 開始、終了期間の日数を出す
+	foreach my $date ($start_date, $end_date) {
+		my ($year, $month, $day) = split('-', $date);
+		$date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
+	}
+	my $days = $end_date - $start_date;	
+
+	my %days;
+	my %days_common = (
+		good	=> 0,
+		bad		=> 0,
+		diff 	=> 0,
+	);
+	my $days_common = \%days_common;
+	while ($days >= 0) {
+		my ($month, $day, $year) = split('/', $start_date);
+
+		# 土日祝日判定(Calendarモジュールはweekdayが 1~5 だと平日)
+		my $date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
+		my $week = $date->weekday;
+		my $holiday_flg = isHoliday($date->year, $date->month, $date->day, 1); # 1が付いてると振替休日判定追加
+		# print $holiday_flg;
+		$date = $year . $month . $day;
+		if ($week =~ m/(0|6)/ or $holiday_flg) {
+			$days{$date} = {
+				%$days_common,
+				is_holiday => 'yes',
+			};
+		}
+		else {
+			$days{$date} = {
+				%days_common,
+				is_holiday => 'no',
+			};			
+		}
+		$days--;
+		$start_date++;
+	}
+	# print Dumper \%days;
+	return %days;
+	# foreach my $key (sort keys %days) {
+	# 	print $key . ": " . $days{$key}->{good},"\n";
+	# }
 }
 
 

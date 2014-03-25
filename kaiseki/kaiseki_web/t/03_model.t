@@ -44,16 +44,23 @@ my $bfile = $filedir . "/" . "${view_id}_bad.dat";
 
 # ハッシュ生成(ファイルを生成したあとでサービス上限の節約をしたいときはここコメントアウトしてちょ)
 # my %gagood = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . ">0", $start_date, $end_date, $homedir);
-my %gabad = $kaiseki->get_ga_graph(
+
+# グラフテンプレートの作成
+my %ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
+
+# グラフ値の計算
+%ga_graph = $kaiseki->get_ga_graph(
   $analytics,
   $view_id,
-  "ga:goal1Value<=0",
+  "ga:goal1Value",
   '2012-12-05',
   '2013-01-05',
   'ga:pageviews',
-  $homedir
+  $homedir,
+  %ga_graph,
 );
 
+print Dumper \%ga_graph,"\n";
 # my $html = '<tr><td class="ok-value">0</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>';
 # my $text = 'PV数';
 # my $value;
