@@ -19,7 +19,10 @@ use feature 'say';
 use Storable;
 use Storable qw(nstore);
 use Mojo::IOLoop;
+use Test::More tests => 1;
 use Kaiseki::GA::useGA;
+
+use JSON qw(encode_json);
 
 # 以下にテストロジックを書く
 my $self = shift;
@@ -37,30 +40,44 @@ my $analytics = Kaiseki::GA::useGA->new(
 
 my $homedir = "$FindBin::Bin/..";
 my $filedir = $homedir . "/public/datas/" . $client_id;
+if (not -d $filedir) {
+  print "ディレクトリ $filedir が存在しません。作成します\n";
+  mkdir $filedir;
+}
 
 # 比較用のデータファイル名
-my $gfile = $filedir . "/" . "${view_id}_good.dat";
-my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+# my $gfile = $filedir . "/" . "${view_id}_good.dat";
+# my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+my $file = $filedir . "/" . "graph_plot.json";
 
 # ハッシュ生成(ファイルを生成したあとでサービス上限の節約をしたいときはここコメントアウトしてちょ)
 # my %gagood = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . ">0", $start_date, $end_date, $homedir);
 
 # グラフテンプレートの作成
-my %ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
-
+my $ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
+note explain $ga_graph,"\n";
 # グラフ値の計算
-%ga_graph = $kaiseki->get_ga_graph(
-  $analytics,
-  $view_id,
-  "ga:goal1Value",
-  '2012-12-05',
-  '2013-01-05',
-  'ga:pageviews',
-  $homedir,
-  %ga_graph,
-);
+# $ga_graph = $kaiseki->get_ga_graph(
+#   $analytics,
+#   $view_id,
+#   "ga:goal1Value",
+#   '2012-12-05',
+#   '2013-01-05',
+#   'ga:pageviews',
+#   $homedir,
+#   $ga_graph,
+# );
+# note explain $ga_graph,"\n";
 
-print Dumper \%ga_graph,"\n";
+# my $json_out = encode_json($ga_graph);
+# note explain $json_out,"\n";
+# open(FH, ">$file") or die("File Error!: $!");
+# print FH $json_out;
+# close(FH);
+
+
+
+# print Dumper \$graph,"\n";
 # my $html = '<tr><td class="ok-value">0</td><td class="metrics">PV数</td><td class="bad-value">0</td><td class="diff-value">0</td></tr>';
 # my $text = 'PV数';
 # my $value;

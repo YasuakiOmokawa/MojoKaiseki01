@@ -533,7 +533,7 @@ sub get_ga_graph {
 		$end_date,
 		$metrics,
 		$homedir,
-		%ga_graph ) = @_;
+		$elements_for_graph ) = @_;
 
 	foreach my $filtering_sign ("<=0", ">0") {
 		my $filter = $filter_param . $filtering_sign;
@@ -551,30 +551,28 @@ sub get_ga_graph {
 		# 取得内容確認し、返却数が1以上ならテンプレートの書き換えを行う
 		# print Dumper \$res;
 		if ($res->total_results >= 1) {
-			my $index = 0;
-			my $row_ref = $res->{rows};
-			my $length = @{$row_ref};
-			# print $length, "\n";
-			while ($index < $length) {
+			foreach my $row_ref ($res->{rows}) {
 				# 理想値、現実値を判別してテンプレートに値を挿入する
-				if ($filter_param =~ />/) {
-					$ga_graph{ $row_ref->[$index]->[0] }->{good} = $row_ref->[$index]->[1];
+				foreach my $element (@{$row_ref}) {
+					if ($filter_param =~ />/) {
+						$elements_for_graph->{days}->{good} = $element->[1];
+					}
+					else {
+						$elements_for_graph->{days}->{bad} = $element->[1];
+					}
+					# diff値を計算する（ここに入れていいか？）
+					$elements_for_graph->{days}->{diff} = $elements_for_graph->{days}->{bad} - $elements_for_graph->{days}->{good};
 				}
-				else {
-					$ga_graph{ $row_ref->[$index]->[0] }->{bad} = $row_ref->[$index]->[1];
-				}
-				# diff値を計算する（ここに入れていいか？）
-				$ga_graph{ $row_ref->[$index]->[0] }->{diff} = $ga_graph{ $row_ref->[$index]->[0] }->{bad} - $ga_graph{ $row_ref->[$index]->[0] }->{good};
-				$index++;
 			}
 		}
 	}
-	# print Dumper \%ga_graph,"\n";
-	return %ga_graph;
+	# print Dumper \%elements_for_graph,"\n";
+
+	return $elements_for_graph;
 }
 
 sub get_ga_graph_template {
-	# 開始日、終了日からグラフの材料になるハッシュリファレンスを返す
+	# 開始日、終了日からグラフの材料になるハッシュの配列リファレンスを返す
 	use Calendar;
 	use Calendar::Japanese::Holiday;
 	my ($self, $start_date, $end_date) = @_;
@@ -586,7 +584,8 @@ sub get_ga_graph_template {
 	}
 	my $days = $end_date - $start_date;	
 
-	my %days;
+	my $hash_days = {};
+	my @row_days;
 	my %days_common = (
 		good	=> 0,
 		bad		=> 0,
@@ -603,25 +602,24 @@ sub get_ga_graph_template {
 		# print $holiday_flg;
 		$date = $year . $month . $day;
 		if ($week =~ m/(0|6)/ or $holiday_flg) {
-			$days{$date} = {
+			push @row_days, {
+				day => $date,
 				%$days_common,
 				is_holiday => 'yes',
 			};
 		}
 		else {
-			$days{$date} = {
-				%days_common,
+			push @row_days, {
+				day => $date,
+				%$days_common,
 				is_holiday => 'no',
-			};			
+			};
 		}
 		$days--;
 		$start_date++;
 	}
-	# print Dumper \%days;
-	return %days;
-	# foreach my $key (sort keys %days) {
-	# 	print $key . ": " . $days{$key}->{good},"\n";
-	# }
+	$hash_days->{days} = [ @row_days ];
+	return $hash_days;
 }
 
 
