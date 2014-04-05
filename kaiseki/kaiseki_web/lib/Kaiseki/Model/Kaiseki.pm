@@ -553,15 +553,15 @@ sub get_ga_graph {
 		if ($res->total_results >= 1) {
 			foreach my $row_ref ($res->{rows}) {
 				# 理想値、現実値を判別してテンプレートに値を挿入する
-				foreach my $element (@{$row_ref}) {
+				foreach my $day (@{$row_ref}) {
 					if ($filter_param =~ />/) {
-						$elements_for_graph->{days}->{good} = $element->[1];
+						$elements_for_graph->{$day->[0]}->{good} = $day->[1];
 					}
 					else {
-						$elements_for_graph->{days}->{bad} = $element->[1];
+						$elements_for_graph->{$day->[0]}->{bad} = $day->[1];
 					}
 					# diff値を計算する（ここに入れていいか？）
-					$elements_for_graph->{days}->{diff} = $elements_for_graph->{days}->{bad} - $elements_for_graph->{days}->{good};
+					$elements_for_graph->{$day->[0]}->{diff} = $elements_for_graph->{$day->[0]}->{bad} - $elements_for_graph->{$day->[0]}->{good};
 				}
 			}
 		}
@@ -585,7 +585,6 @@ sub get_ga_graph_template {
 	my $days = $end_date - $start_date;	
 
 	my $hash_days = {};
-	my @row_days;
 	my %days_common = (
 		good	=> 0,
 		bad		=> 0,
@@ -602,15 +601,13 @@ sub get_ga_graph_template {
 		# print $holiday_flg;
 		$date = $year . $month . $day;
 		if ($week =~ m/(0|6)/ or $holiday_flg) {
-			push @row_days, {
-				day => $date,
+			$hash_days->{$date} = {
 				%$days_common,
 				is_holiday => 'yes',
 			};
 		}
 		else {
-			push @row_days, {
-				day => $date,
+			$hash_days->{$date} = {
 				%$days_common,
 				is_holiday => 'no',
 			};
@@ -618,7 +615,6 @@ sub get_ga_graph_template {
 		$days--;
 		$start_date++;
 	}
-	$hash_days->{days} = [ @row_days ];
 	return $hash_days;
 }
 

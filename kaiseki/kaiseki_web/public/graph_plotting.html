@@ -13,20 +13,18 @@
     <link rel="stylesheet" type="text/css" href="js/libs/dist/jquery.jqplot.min.css" />
     <script>
     jQuery( function() {
-        var result;
+        var result = [];
         var scriptUrl = "datas/" + '85989112199.apps.googleusercontent.com' + "/graph_plot.json";
         jQuery.ajax({
             url: scriptUrl,
             async: false,
+            dataType: "json",
             success: function(data) {
-                jQuery(data).each(function(){
-                    alert("date is " + data.)
-                })
-            }
+                for(date in data) {
+                    result.push([String(date).slice(6), data[date]['diff']]);
+                }
+            } 
          });
-        alert("Data Loaded: " + result);
-        // result = [ [['2012',8],['2013', 9]] ];
-        // alert("Data Loaded: " + result);
         var options = {
             axes: {
                 xaxis: {
@@ -40,10 +38,10 @@
                 }
             }
         };
-        jQuery.jqplot('jqPlot-sample', result, options);
+        jQuery.jqplot('jqPlot-sample', [result], options);
     } );
     </script>
     <body>
-        <div id="jqPlot-sample" style="height: 150px; width: 300px;"></div>
+        <div id="jqPlot-sample" style="height: 150px; width: 500px;"></div>
     </body>
 </html>

@@ -57,23 +57,23 @@ my $file = $filedir . "/" . "graph_plot.json";
 my $ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
 note explain $ga_graph,"\n";
 # グラフ値の計算
-# $ga_graph = $kaiseki->get_ga_graph(
-#   $analytics,
-#   $view_id,
-#   "ga:goal1Value",
-#   '2012-12-05',
-#   '2013-01-05',
-#   'ga:pageviews',
-#   $homedir,
-#   $ga_graph,
-# );
-# note explain $ga_graph,"\n";
+$ga_graph = $kaiseki->get_ga_graph(
+  $analytics,
+  $view_id,
+  "ga:goal1Value",
+  '2012-12-05',
+  '2013-01-05',
+  'ga:pageviews',
+  $homedir,
+  $ga_graph,
+);
+note explain $ga_graph,"\n";
 
-# my $json_out = encode_json($ga_graph);
-# note explain $json_out,"\n";
-# open(FH, ">$file") or die("File Error!: $!");
-# print FH $json_out;
-# close(FH);
+my $json_out = encode_json($ga_graph);
+note explain $json_out,"\n";
+open(FH, ">$file") or die("File Error!: $!");
+print FH $json_out;
+close(FH);
 
 
 

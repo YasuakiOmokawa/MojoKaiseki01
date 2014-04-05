@@ -12,35 +12,35 @@ my $res = {
 };
 
 my $plot_graph = {
-  'days' => [
-    {
-      'day' => '20121205',
-      'bad' => 0,
+  '20121205' => {
+      'bad' => 1,
+      'diff' => 2,
+      'good' => 0,
+      'is_holiday' => 'no'
+  },
+  '20121206' => {
+      'bad' => 3,
+      'diff' => 0,
+      'good' => 5,
+      'is_holiday' => 'no'
+  },
+  '20121207' => {
+      'bad' => 9,
       'diff' => 0,
       'good' => 0,
       'is_holiday' => 'no'
-    },
-    {
-      'bad' => 0,
-      'day' => '20121206',
-      'diff' => 0,
-      'good' => 0,
-      'is_holiday' => 'no'
-    },
-    {
-      'bad' => 0,
-      'day' => '20121207',
-      'diff' => 0,
-      'good' => 0,
-      'is_holiday' => 'no'
-    }
-  ]
+  },
 };
 
-foreach my $row_ref ($plot_graph->{days}) {
-	foreach my $elem (@{$row_ref}) {
-		# print "date is " . $elem->{day} . ", good is " . $elem->{good},"\n";
-		if ($elem->{date} eq $res->{rows_date})
-	}
+foreach my $ref ($res->{rows_date}) {
+  foreach my $elem (@{$ref}) {
+    print "date is " . $elem->[0] . ", good is " . $elem->[1],"\n";
+    # if ($elem->{date} eq $res->{rows_date})
+  }
+}
+
+foreach my $day (keys $plot_graph) {
+	print "date is " . $day . ", good is " . $plot_graph->{$day}->{good},"\n";
+	# if ($elem->{date} eq $res->{rows_date})
 }
 
