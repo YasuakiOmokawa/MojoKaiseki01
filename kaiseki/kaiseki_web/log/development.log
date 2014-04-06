@@ -1,0 +1,31 @@
+[Mon Apr  7 00:02:47 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Apr  7 00:02:47 2014] [debug] GET "/".
+[Mon Apr  7 00:02:57 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Apr  7 00:02:57 2014] [debug] start_date is .
+[Mon Apr  7 00:02:57 2014] [debug] end_date is .
+[Mon Apr  7 00:03:01 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Apr  7 00:03:01 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Apr  7 00:03:01 2014] [debug] 200 OK (13.765787s, 0.073/s).
+[Mon Apr  7 00:06:35 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Apr  7 00:06:35 2014] [debug] GET "/".
+[Mon Apr  7 00:06:35 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Apr  7 00:06:35 2014] [debug] start_date is .
+[Mon Apr  7 00:06:35 2014] [debug] end_date is .
+[Mon Apr  7 00:06:37 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Apr  7 00:06:37 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Apr  7 00:06:37 2014] [debug] 200 OK (2.286713s, 0.437/s).
+[Mon Apr  7 00:07:19 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Apr  7 00:07:19 2014] [debug] GET "/".
+[Mon Apr  7 00:07:19 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Apr  7 00:07:19 2014] [debug] start_date is .
+[Mon Apr  7 00:07:19 2014] [debug] end_date is .
+[Mon Apr  7 00:07:21 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Apr  7 00:07:21 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Apr  7 00:07:21 2014] [debug] 200 OK (2.238280s, 0.447/s).
+[Mon Apr  7 00:09:29 2014] [debug] Your secret passphrase needs to be changed!!!
+[Mon Apr  7 00:09:29 2014] [debug] GET "/".
+[Mon Apr  7 00:09:29 2014] [debug] Routing to controller "Kaiseki::Web::Controller::Root" and action "index".
+[Mon Apr  7 00:09:29 2014] [debug] all req parameter is Kaiseki::Web::Controller::Root=HASH(0x42fd070)->req->param
+[Mon Apr  7 00:09:31 2014] [debug] Rendering template "example/index.html.ep".
+[Mon Apr  7 00:09:31 2014] [debug] Rendering template "layouts/default.html.ep".
+[Mon Apr  7 00:09:31 2014] [debug] 200 OK (2.342474s, 0.427/s).

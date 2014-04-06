@@ -10,6 +10,10 @@
       <legend>期間(必須)</legend>
     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
     <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br> -->
+    <input type="hidden" name="start_date" value="2012-12-05">
+    <input type="hidden" name="end_date" value="2013-01-05">
+    <input type="hidden" name="goal" value="ga:goal1Value">
+    <input type="hidden" name="metrics" value="ga:pageviews">
     <input type="hidden" name="client_id" value=<%= $client_id %> >
     <input type="submit" value="開始" >
   </div>

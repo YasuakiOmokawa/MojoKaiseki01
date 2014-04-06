@@ -13,89 +13,82 @@ use JSON qw(encode_json);
 # Liteの、get '/' => sub {　部分
 sub index {
   my $self = shift;
-  my $start_date = 'hello';
-  # my $start_date = $self->req->param('start_date');
-  # my $end_date = $self->req->param('end_date');
-  $self->stash->{start_date} = '';
-  $self->stash->{end_date} = '';
+  my $start_date = $self->req->param('start_date');
+  my $end_date = $self->req->param('end_date');
+  my $goal = $self->req->param('goal');
+  my $metrics = $self->req->param('metrics');
+  # $self->stash->{start_date} = '';
+  # $self->stash->{end_date} = '';
   # $self->stash->{start_date} = $start_date;
   # $self->stash->{end_date} = $end_date;
   $self->stash->{error} = '';
+
+  # パラメータのデバッガ
+  $self->app->log->debug("all req parameter is $self->req->param");
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
   my ($view_id) = $kaiseki->getgaviewid(1, 1);
 
-  if ($start_date) {
+  my ($client_id, $client_secret, $refresh_token);
+  eval{
+    # アナリティクス認証データの取得
+      ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
+      my $analytics = Kaiseki::GA::useGA->new(
+        $client_id,
+        $client_secret,
+        $refresh_token
+      );
 
-    my ($client_id, $client_secret, $refresh_token);
-    eval{
-      # アナリティクス認証データの取得
-        ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
-        my $analytics = Kaiseki::GA::useGA->new(
-          $client_id,
-          $client_secret,
-          $refresh_token
-        );
+      # client_idの数値以外を削除（ディレクトリ名に使いたいから）
+      $client_id =~ s/[^0-9]//g;
 
-        # アナリティクスデータログの格納ファイルパス
-        my $homedir = $self->app->home;
-        my $filedir = $homedir . "/public/datas/" . $client_id;
-        if (not -d $filedir) {
-          print "ディレクトリ $filedir が存在しません。作成します\n";
-          mkdir $filedir;
-        }
+      # アナリティクスデータログの格納ファイルパス
+      my $homedir = $self->app->home;
+      my $filedir = $homedir . "/public/datas/" . $client_id;
+      if (not -d $filedir) {
+        print "ディレクトリ $filedir が存在しません。作成します\n";
+        mkdir $filedir;
+      }
 
-        #client_idのドットを置換（ディレクトリ名にしたいので）
-        $client_id =~ s/\.//g;
-        $client_id = 'a' . $client_id;
-        # 比較用のデータファイル名
-        # my $gfile = $filedir . "/" . "${view_id}_good.dat";
-        # my $bfile = $filedir . "/" . "${view_id}_bad.dat";
-        my $file = $filedir . "/" . "graph_plot.json";
+      # 比較用のデータファイル名
+      # my $gfile = $filedir . "/" . "${view_id}_good.dat";
+      # my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+      my $file = $filedir . "/" . "graph_plot.json";
 
-        # グラフテンプレートの作成
-        my $ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
-        # グラフ値の計算
-        $ga_graph = $kaiseki->get_ga_graph(
-          $analytics,
-          $view_id,
-          "ga:goal1Value",
-          '2012-12-05',
-          '2013-01-05',
-          'ga:pageviews',
-          $homedir,
-          $ga_graph,
-        );        
-        my $json_out = encode_json($ga_graph);
-        open(FH, ">$file") or die("File Error!: $!");
-        print FH $json_out;
-        close(FH);
+      # グラフテンプレートの作成
+      my $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
+      # グラフ値の計算
+      $ga_graph = $kaiseki->get_ga_graph(
+        $analytics,
+        $view_id,
+        $goal,
+        $start_date,
+        $end_date,
+        $metrics,
+        $homedir,
+        $ga_graph,
+      );        
+      my $json_out = encode_json($ga_graph);
+      open(FH, ">$file") or die("File Error!: $!");
+      print FH $json_out;
+      close(FH);
 
-        # ハッシュ読み出し
-        # $gagood = retrieve($gfile);
-        # $gabad = retrieve($bfile);
+      # ハッシュ読み出し
+      # $gagood = retrieve($gfile);
+      # $gabad = retrieve($bfile);
 
-        # 英語から日本語へ変換
-        # $gagood = $kaiseki->entoJp($gagood);
-        # $gabad = $kaiseki->entoJp($gabad);
+      # 英語から日本語へ変換
+      # $gagood = $kaiseki->entoJp($gagood);
+      # $gabad = $kaiseki->entoJp($gabad);
 
-        # 差分の生成
-        # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
-        # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
-    };
-    # $self->app->log->debug("src is $src");
-    $self->stash->{client_id} = $client_id;
-    $self->stash->{error} = $@ if $@;
-    $self->render('example/index');
-  }
-  # elsif ($metrics) {
-  #   $self->stash->{error} = '比較基準を正しく入力してください';
-  #   $self->render('example/index');
-  # }
-  else {
-    $self->render('example/index');
-  }
+      # 差分の生成
+      # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
+      # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
+  };
+  $self->stash->{client_id} = $client_id;
+  $self->stash->{error} = $@ if $@;
+  $self->render('example/index');
 };
 
 sub selectdetail {

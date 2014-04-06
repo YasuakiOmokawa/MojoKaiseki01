@@ -13,11 +13,8 @@
     <script>
     jQuery( function() {
         var result = [];
-        // var client_id = '85989112199.apps.googleusercontent.com';
         var client_id = <%= $client_id %>;
         var scriptUrl = "datas/" + String(client_id) + "/graph_plot.json";
-        console.log(scriptUrl);
-        // var scriptUrl = "datas/" + '85989112199.apps.googleusercontent.com' + "/graph_plot.json";
         jQuery.ajax({
             url: scriptUrl,
             async: false,
