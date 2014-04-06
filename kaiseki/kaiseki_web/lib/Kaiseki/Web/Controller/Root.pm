@@ -8,14 +8,18 @@ use Storable;
 use Storable qw(nstore);
 use Carp 'croak';
 use Mojo::IOLoop;
+use JSON qw(encode_json);
 
 # Liteの、get '/' => sub {　部分
 sub index {
   my $self = shift;
-  my $start_date = $self->req->param('start_date');
-  my $end_date = $self->req->param('end_date');
-  $self->stash->{start_date} = $start_date;
-  $self->stash->{end_date} = $end_date;
+  my $start_date = 'hello';
+  # my $start_date = $self->req->param('start_date');
+  # my $end_date = $self->req->param('end_date');
+  $self->stash->{start_date} = '';
+  $self->stash->{end_date} = '';
+  # $self->stash->{start_date} = $start_date;
+  # $self->stash->{end_date} = $end_date;
   $self->stash->{error} = '';
 
   # アナリティクスビューIDの取得
@@ -33,51 +37,52 @@ sub index {
           $refresh_token
         );
 
-
         # アナリティクスデータログの格納ファイルパス
         my $homedir = $self->app->home;
         my $filedir = $homedir . "/public/datas/" . $client_id;
+        if (not -d $filedir) {
+          print "ディレクトリ $filedir が存在しません。作成します\n";
+          mkdir $filedir;
+        }
 
         # 比較用のデータファイル名
-        my $gfile = $filedir . "/" . "${view_id}_good.dat";
-        my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+        # my $gfile = $filedir . "/" . "${view_id}_good.dat";
+        # my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+        my $file = $filedir . "/" . "graph_plot.json";
 
-        # ハッシュ生成(ファイルを生成したあとでサービス上限の節約をしたいときはここコメントアウトしてちょ)
-        # my %gagood = $kaiseki->getGadata($client_id, $client_secret, $refresh_token, $view_id, $metrics . ">0", $start_date, $end_date, $homedir);
-        my %gabad = $kaiseki->get_ga_graph(
+        # グラフテンプレートの作成
+        my $ga_graph = $kaiseki->get_ga_graph_template('2012-12-05', '2013-01-05');
+        # グラフ値の計算
+        $ga_graph = $kaiseki->get_ga_graph(
           $analytics,
           $view_id,
-          $filter_param . "<=0",
-          $start_date,
-          $end_date,
-          $metrics,
-          $homedir
-        );
-        # nstore \%gagood, $gfile;
-        # nstore \%gabad, $bfile;
+          "ga:goal1Value",
+          '2012-12-05',
+          '2013-01-05',
+          'ga:pageviews',
+          $homedir,
+          $ga_graph,
+        );        
+        my $json_out = encode_json($ga_graph);
+        open(FH, ">$file") or die("File Error!: $!");
+        print FH $json_out;
+        close(FH);
 
         # ハッシュ読み出し
-        $gagood = retrieve($gfile);
-        $gabad = retrieve($bfile);
+        # $gagood = retrieve($gfile);
+        # $gabad = retrieve($bfile);
 
         # 英語から日本語へ変換
-        $gagood = $kaiseki->entoJp($gagood);
-        $gabad = $kaiseki->entoJp($gabad);
+        # $gagood = $kaiseki->entoJp($gagood);
+        # $gabad = $kaiseki->entoJp($gabad);
 
         # 差分の生成
         # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
-        $gadiff = $kaiseki->diffGahash($gabad, $gagood);
-
-          my $kaiseki = Kaiseki::Model::Kaiseki->new;
-          my @rows = $kaiseki->getCustomerinfo(1);
-          # `/myapp/mvc/kaiseki/kaiseki_web/t/opePhantomJS.sh start`;
-          $src = $kaiseki->scrapeGadata($rows[0], $rows[1]);
-          # `/myapp/mvc/kaiseki/kaiseki_web/t/opePhantomJS.sh stop`;
+        # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
     };
     # $self->app->log->debug("src is $src");
 
     $self->stash->{error} = $@ if $@;
-    $self->stash->{src} = $src;
     $self->render('example/index');
   }
   # elsif ($metrics) {
@@ -106,26 +111,25 @@ sub selectdetail {
 sub detail {
   my $self = shift;
   $self->stash->{error} = '';
-  $self->stash->{src} = '';
 
   # アナリティクスデータログの格納ファイルパス
-  my $homedir = $self->app->home;
-  my $filedir = $homedir . "/public/datas";
-  my $file = $filedir . "/" . "allmetrics.txt";
+  # my $homedir = $self->app->home;
+  # my $filedir = $homedir . "/public/datas";
+  # my $file = $filedir . "/" . "allmetrics.txt";
 
   # テンプレートファイル生成
-  my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
-  $kaiseki_scrape->createTemplate($filedir);
+  # my $kaiseki_scrape = Kaiseki::Model::KaisekiForScrape->new;
+  # $kaiseki_scrape->createTemplate($filedir);
 
   # Web解析データの取得
-  my $kaiseki = Kaiseki::Model::Kaiseki->new;
-  eval{
-        my @rows = $kaiseki->getCustomerinfo(1);
-        Mojo::IOLoop->timer(2 => sub { 
-            $kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
-          }
-        );
-  };
+  # my $kaiseki = Kaiseki::Model::Kaiseki->new;
+  # eval{
+  #       my @rows = $kaiseki->getCustomerinfo(1);
+  #       Mojo::IOLoop->timer(2 => sub { 
+  #           $kaiseki_scrape->scrapeGadata($rows[0], $rows[1], $file);
+  #         }
+  #       );
+  # };
 
   $self->stash->{error} = $@ if $@;
   $self->render('example/detail');
