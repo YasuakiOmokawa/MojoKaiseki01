@@ -1,8 +1,7 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="ja"><meta charset="UTF-8" />
-    <head>
-        <title>Test Glogin</title>
-    </head>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
     <script language="javascript" type="text/javascript" src="js/libs/jquery-1.11.0.min.js"></script>
     <!--[if lt IE 9]>
         <script language="javascript" type="text/javascript" src="js/libs/dist/excanvas.min.js"></script>
@@ -14,9 +13,11 @@
     <script>
     jQuery( function() {
         var result = [];
-        var hello = 'it.my.king';
-        console.log(hello);
-        var scriptUrl = "datas/" + '85989112199.apps.googleusercontent.com' + "/graph_plot.json";
+        // var client_id = '85989112199.apps.googleusercontent.com';
+        var client_id = <%= $client_id %>;
+        var scriptUrl = "datas/" + String(client_id) + "/graph_plot.json";
+        console.log(scriptUrl);
+        // var scriptUrl = "datas/" + '85989112199.apps.googleusercontent.com' + "/graph_plot.json";
         jQuery.ajax({
             url: scriptUrl,
             async: false,
@@ -43,7 +44,6 @@
         jQuery.jqplot('jqPlot-sample', [result], options);
     } );
     </script>
-    <body>
-        <div id="jqPlot-sample" style="height: 150px; width: 500px;"></div>
-    </body>
+  </head>
+  <body><%= content %></body>
 </html>

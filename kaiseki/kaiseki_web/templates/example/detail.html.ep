@@ -1,4 +1,4 @@
-% layout 'detail';
+% layout 'detail_graph';
 % title '詳細表示画面';
 
 <h1>分析結果を表示します</h1>
@@ -7,7 +7,7 @@
 </pre>
 
 <!-- 全体指標テーブル -->
-<table>
+<!-- <table>
     <td> 
         <table class="tbl-common tbl-all-metrics"> 
             <caption >全体指標（サイト全体）</caption>
@@ -15,6 +15,7 @@
         </table> 
     </td> 
 </table>
-        
+ -->        
+<div id="jqPlot-sample" style="height: 150px; width: 750px;"></div>
         
 

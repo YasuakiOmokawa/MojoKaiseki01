@@ -10,6 +10,7 @@
       <legend>期間(必須)</legend>
     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
     <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br> -->
+    <input type="hidden" name="client_id" value=<%= $client_id %> >
     <input type="submit" value="開始" >
   </div>
 </form>

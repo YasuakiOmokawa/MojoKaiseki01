@@ -28,9 +28,10 @@ sub index {
 
   if ($start_date) {
 
+    my ($client_id, $client_secret, $refresh_token);
     eval{
       # アナリティクス認証データの取得
-        my ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
+        ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
         my $analytics = Kaiseki::GA::useGA->new(
           $client_id,
           $client_secret,
@@ -45,6 +46,9 @@ sub index {
           mkdir $filedir;
         }
 
+        #client_idのドットを置換（ディレクトリ名にしたいので）
+        $client_id =~ s/\.//g;
+        $client_id = 'a' . $client_id;
         # 比較用のデータファイル名
         # my $gfile = $filedir . "/" . "${view_id}_good.dat";
         # my $bfile = $filedir . "/" . "${view_id}_bad.dat";
@@ -81,7 +85,7 @@ sub index {
         # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
     };
     # $self->app->log->debug("src is $src");
-
+    $self->stash->{client_id} = $client_id;
     $self->stash->{error} = $@ if $@;
     $self->render('example/index');
   }
@@ -111,6 +115,7 @@ sub selectdetail {
 sub detail {
   my $self = shift;
   $self->stash->{error} = '';
+  $self->stash->{client_id} = $self->req->param('client_id');
 
   # アナリティクスデータログの格納ファイルパス
   # my $homedir = $self->app->home;
