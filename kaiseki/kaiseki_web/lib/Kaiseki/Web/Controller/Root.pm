@@ -116,12 +116,12 @@ sub detail {
   foreach my $date ($start_date, $end_date) {
     my ($year, $month, $day) = split('-', $start_date);
     $date = $year . "年" . $month . "月" . $day . "日";
-    $date = url_escape $date;
+    # $date = url_escape $date;
     $self->app->log->debug("date is $date");
   }
 
-  $self->stash->{client_id} = $client_id;
-  $self->stash->{client_id} = $client_id;
+  $self->stash->{start_date} = $start_date;
+  $self->stash->{end_date} = $end_date;
   $self->stash->{client_id} = $client_id;
 
 
