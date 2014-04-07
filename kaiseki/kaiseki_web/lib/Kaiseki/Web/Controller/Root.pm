@@ -9,10 +9,35 @@ use Storable qw(nstore);
 use Carp 'croak';
 use Mojo::IOLoop;
 use JSON qw(encode_json);
+use Mojo::Util qw(dumper url_escape);
 
 # Liteの、get '/' => sub {　部分
 sub index {
   my $self = shift;
+  $self->stash->{error} = '';
+
+  $self->render('example/index');
+};
+
+sub selectdetail {
+  my $self = shift;
+  my $metrics = $self->req->param('metrics');
+  my $start_date = $self->req->param('start_date');
+  my $end_date = $self->req->param('end_date');
+  my $caption = $self->req->param('caption');
+
+  $self->stash->{start_date} = $start_date;
+  $self->stash->{end_date} = $end_date;
+  $self->stash->{metrics} = $metrics;
+  $self->stash->{caption} = $caption;
+  $self->render('example/selectdetail');
+};
+
+sub detail {
+  my $self = shift;
+  $self->stash->{error} = '';
+  # $self->stash->{client_id} = $self->req->param('client_id');
+
   my $start_date = $self->req->param('start_date');
   my $end_date = $self->req->param('end_date');
   my $goal = $self->req->param('goal');
@@ -21,10 +46,13 @@ sub index {
   # $self->stash->{end_date} = '';
   # $self->stash->{start_date} = $start_date;
   # $self->stash->{end_date} = $end_date;
-  $self->stash->{error} = '';
+  # $self->stash->{error} = '';
 
   # パラメータのデバッガ
-  $self->app->log->debug("all req parameter is $self->req->param");
+  my $req_params = $self->req->params->to_hash;
+  $self->app->log->debug('all request parameter routing /detail');
+  # warn dumper $req_params, "\n";
+  $self->app->log->debug("\n", dumper $req_params);
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
@@ -51,9 +79,7 @@ sub index {
         mkdir $filedir;
       }
 
-      # 比較用のデータファイル名
-      # my $gfile = $filedir . "/" . "${view_id}_good.dat";
-      # my $bfile = $filedir . "/" . "${view_id}_bad.dat";
+      # 表示データのファイル名
       my $file = $filedir . "/" . "graph_plot.json";
 
       # グラフテンプレートの作成
@@ -86,29 +112,20 @@ sub index {
       # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
       # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
   };
+  # 日付の変更
+  foreach my $date ($start_date, $end_date) {
+    my ($year, $month, $day) = split('-', $start_date);
+    $date = $year . "年" . $month . "月" . $day . "日";
+    $date = url_escape $date;
+    $self->app->log->debug("date is $date");
+  }
+
   $self->stash->{client_id} = $client_id;
-  $self->stash->{error} = $@ if $@;
-  $self->render('example/index');
-};
+  $self->stash->{client_id} = $client_id;
+  $self->stash->{client_id} = $client_id;
 
-sub selectdetail {
-  my $self = shift;
-  my $metrics = $self->req->param('metrics');
-  my $start_date = $self->req->param('start_date');
-  my $end_date = $self->req->param('end_date');
-  my $caption = $self->req->param('caption');
 
-  $self->stash->{start_date} = $start_date;
-  $self->stash->{end_date} = $end_date;
-  $self->stash->{metrics} = $metrics;
-  $self->stash->{caption} = $caption;
-  $self->render('example/selectdetail');
-};
-
-sub detail {
-  my $self = shift;
-  $self->stash->{error} = '';
-  $self->stash->{client_id} = $self->req->param('client_id');
+  #### ↓これは全体指標の項目 ####
 
   # アナリティクスデータログの格納ファイルパス
   # my $homedir = $self->app->home;
@@ -128,6 +145,8 @@ sub detail {
   #         }
   #       );
   # };
+
+  #### ここまで ####
 
   $self->stash->{error} = $@ if $@;
   $self->render('example/detail');

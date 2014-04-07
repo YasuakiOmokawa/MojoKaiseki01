@@ -14,7 +14,6 @@
     <input type="hidden" name="end_date" value="2013-01-05">
     <input type="hidden" name="goal" value="ga:goal1Value">
     <input type="hidden" name="metrics" value="ga:pageviews">
-    <input type="hidden" name="client_id" value=<%= $client_id %> >
     <input type="submit" value="開始" >
   </div>
 </form>

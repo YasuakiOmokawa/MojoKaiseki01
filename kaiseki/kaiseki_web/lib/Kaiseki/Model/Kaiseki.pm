@@ -14,6 +14,11 @@ use URI;
 use Storable;
 use Storable qw(nstore);
 use Carp 'croak';
+use Log::Minimal;
+
+# debug is ok? 1 is ok.
+$ENV{LM_DEBUG} = 1;
+$Log::Minimal::TRACE_LEVEL = 1;
 
 sub tstview {
 	my ($self, $param) = @_;
@@ -537,7 +542,8 @@ sub get_ga_graph {
 
 	foreach my $filtering_sign ("<=0", ">0") {
 		my $filter = $filter_param . $filtering_sign;
-		print "\$filtering_parameter is: " . $filter,"\n";
+		debugf("\$filtering_parameter is $filter");
+		# print "$self : \$filtering_parameter is: " . $filter,"\n";
 		my $req = $analytics->new_request(
 			ids					=> "ga:$view_id",
 			metrics			=> "$metrics",
