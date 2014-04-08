@@ -1,6 +1,6 @@
 % layout 'default';
-% title 'Google Analytics ビューデータ比較 version 0.0.2';
-<h1>APIを使わないバージョン</h1>
+% title 'Google Analytics ビューデータ比較 version 0.0.3';
+<h1>API再使用</h1>
 <pre>
 # 開始ボタンで開始します
 </pre>

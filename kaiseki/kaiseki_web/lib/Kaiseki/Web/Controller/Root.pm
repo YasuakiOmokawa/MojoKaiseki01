@@ -50,7 +50,7 @@ sub detail {
 
   # パラメータのデバッガ
   my $req_params = $self->req->params->to_hash;
-  $self->app->log->debug('all request parameter routing /detail');
+  $self->app->log->debug('all request parameter routing /detail dumps below');
   # warn dumper $req_params, "\n";
   $self->app->log->debug("\n", dumper $req_params);
 
@@ -59,6 +59,7 @@ sub detail {
   my ($view_id) = $kaiseki->getgaviewid(1, 1);
 
   my ($client_id, $client_secret, $refresh_token);
+  my $ga_graph;
   eval{
     # アナリティクス認証データの取得
       ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
@@ -83,7 +84,7 @@ sub detail {
       my $file = $filedir . "/" . "graph_plot.json";
 
       # グラフテンプレートの作成
-      my $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
+      $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
       # グラフ値の計算
       $ga_graph = $kaiseki->get_ga_graph(
         $analytics,
@@ -114,15 +115,19 @@ sub detail {
   };
   # 日付の変更
   foreach my $date ($start_date, $end_date) {
-    my ($year, $month, $day) = split('-', $start_date);
+    my ($year, $month, $day) = split('-', $date);
     $date = $year . "年" . $month . "月" . $day . "日";
     # $date = url_escape $date;
     $self->app->log->debug("date is $date");
   }
 
+  $self->app->log->debug("graph plot parameter dumps below");
+  $self->app->log->debug("\n", dumper \$ga_graph);
+
   $self->stash->{start_date} = $start_date;
   $self->stash->{end_date} = $end_date;
   $self->stash->{client_id} = $client_id;
+  $self->stash->{ga_graph} = $ga_graph;
 
 
   #### ↓これは全体指標の項目 ####

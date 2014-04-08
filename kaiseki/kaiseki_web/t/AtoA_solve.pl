@@ -34,13 +34,14 @@ my $plot_graph = {
 
 foreach my $ref ($res->{rows_date}) {
   foreach my $elem (@{$ref}) {
-    print "date is " . $elem->[0] . ", good is " . $elem->[1],"\n";
+    print "date is " . substr($elem->[0], 6) . ", good is " . $elem->[1],"\n";
     # if ($elem->{date} eq $res->{rows_date})
   }
 }
 
 foreach my $day (keys $plot_graph) {
 	print "date is " . $day . ", good is " . $plot_graph->{$day}->{good},"\n";
+
 	# if ($elem->{date} eq $res->{rows_date})
 }
 

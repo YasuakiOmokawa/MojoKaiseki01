@@ -19,4 +19,103 @@
  -->        
 <div id="jqPlot-sample" style="height: 150px; width: 750px;"></div>
         
+<!-- グラフ情報テーブル -->
+% if ($ga_graph) {	
+	<table class="tbl-common tbl-graph-plotting">
+    <caption >ーギャップ値</caption>
+	    <td>
+	    	<table>
+        	<tbody>
+          	<tr>
+	          	<td>日</td>
+	          </tr>
+            % my $is_holiday;
+            % foreach my $day (sort keys $ga_graph) {
+	         		% $is_holiday = "is-holiday-" . $ga_graph->{$day}->{is_holiday};
+            	<tr class="<%= $is_holiday %>">
+            	% my $sliced_day = substr($day, 6);
+            		<td class="plot-day"><%= $sliced_day %></td>
+<!--             		<td class="ok-value"><%= $ga_graph->{$day}->{good} %></td>
+            		<td class="bad-value"><%= $ga_graph->{$day}->{bad} %></td>
+            		<td class="diff-value"><%= $ga_graph->{$day}->{diff} %></td> -->
+            	</tr>
+            % }
+          </tbody>
+	      </table> 
+	    </td> 
+	    <td>
+	    	<table>
+        	<tbody>
+          	<tr>
+	          	<!-- <td>日</td> -->
+            	<td>理想値</td>
+<!--             	<td>現実値</td>
+            	<td>差</td> -->
+	          </tr>
+            % my $is_holiday;
+            % foreach my $day (sort keys $ga_graph) {
+	         		% $is_holiday = "is-holiday-" . $ga_graph->{$day}->{is_holiday};
+            	<tr class="<%= $is_holiday %>">
+            	% my $sliced_day = substr($day, 6);
+            		<!-- <td class="plot-day"><%= $sliced_day %></td> -->
+            		<td class="ok-value"><%= $ga_graph->{$day}->{good} %></td>
+<!--             		<td class="bad-value"><%= $ga_graph->{$day}->{bad} %></td>
+            		<td class="diff-value"><%= $ga_graph->{$day}->{diff} %></td> -->
+            	</tr>
+            % }
+          </tbody>
+	      </table> 
+	    </td>
+	    <td>
+	    	<table>
+        	<tbody>
+          	<tr>
+	          	<!-- <td>日</td> -->
+            	<!-- <td>理想値</td> -->
+            	<td>現実値</td>
+            	<!-- <td>差</td> -->
+	          </tr>
+            % my $is_holiday;
+            % foreach my $day (sort keys $ga_graph) {
+	         		% $is_holiday = "is-holiday-" . $ga_graph->{$day}->{is_holiday};
+            	<tr class="<%= $is_holiday %>">
+            	% my $sliced_day = substr($day, 6);
+            		<!-- <td class="plot-day"><%= $sliced_day %></td> -->
+            		<!-- <td class="ok-value"><%= $ga_graph->{$day}->{good} %></td> -->
+            		<td class="bad-value"><%= $ga_graph->{$day}->{bad} %></td>
+            		<!-- <td class="diff-value"><%= $ga_graph->{$day}->{diff} %></td> -->
+            	</tr>
+            % }
+          </tbody>
+	      </table> 
+	    </td>
+	    <td>
+	    	<table>
+        	<tbody>
+          	<tr>
+	          	<!-- <td>日</td> -->
+            	<!-- <td>理想値</td> -->
+            	<!-- <td>現実値</td> -->
+            	<td>差</td>
+	          </tr>
+            % my $is_holiday;
+            % foreach my $day (sort keys $ga_graph) {
+	         		% $is_holiday = "is-holiday-" . $ga_graph->{$day}->{is_holiday};
+            	<tr class="<%= $is_holiday %>">
+            	% my $sliced_day = substr($day, 6);
+            		<!-- <td class="plot-day"><%= $sliced_day %></td> -->
+            		<!-- <td class="ok-value"><%= $ga_graph->{$day}->{good} %></td> -->
+            		<!-- <td class="bad-value"><%= $ga_graph->{$day}->{bad} %></td> -->
+            		<td class="diff-value"><%= $ga_graph->{$day}->{diff} %></td>
+            	</tr>
+            % }
+          </tbody>
+	      </table> 
+	    </td>
+	  </table>
+% }
+% else {
+	<div style="color:red">エラー。グラフプロットデータが正しく受け渡されていない可能性があります。　code: 12345</div>
+% }
+
 

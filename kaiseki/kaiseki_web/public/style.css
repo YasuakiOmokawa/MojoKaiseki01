@@ -39,6 +39,14 @@ table.tbl-all-metrics td {
     width: 70px;
 }
 
+/*グラフプロットテーブル固有設定*/
+table.tbl-graph-plotting {
+    width: 750px;
+    border: solid gainsboro 1px;
+    border-collapse: collapse;
+    float: left;
+}
+
 /* ここまで、テーブルの設定 */
 
 
