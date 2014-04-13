@@ -3,7 +3,39 @@
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="style.css" type="text/css">
-    <script language="javascript" type="text/javascript" src="js/libs/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script>
+    $(function() {
+        var start_date = <%= $start_date %>;
+        var end_date = <%= $end_date %>;
+        $.datepicker.setDefaults( $.datepicker.regional[ "ja" ] );
+        $( "#start_date").datepicker("setDate", start_date);
+        $( "#end_date").datepicker("setDate", end_date);
+        $( "#start_date" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 2,
+            onClose: function( selectedDate ) {
+                $( "#end_date" ).datepicker( "option", "maxDate", "+1m");
+                $( "#end_date" ).datepicker( "option", "minDate", selectedDate);
+                // $( "#end_date" ).datepicker("setDate", "selectedDate +1m");
+            }
+        });
+        $( "#end_date" ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            numberOfMonths: 2,
+            onClose: function( selectedDate ) {
+                $( "#start_date" ).datepicker( "option", "maxDate", selectedDate);
+                $( "#start_date" ).datepicker( "option", "minDate", "-1m");
+            }
+        });
+    });
+    </script>
     <!--[if lt IE 9]>
         <script language="javascript" type="text/javascript" src="js/libs/dist/excanvas.min.js"></script>
     <![endif]-->
@@ -12,11 +44,11 @@
     <script language="javascript" type="text/javascript" src="js/libs/dist/plugins/jqplot.categoryAxisRenderer.min.js"></script>
     <link rel="stylesheet" type="text/css" href="js/libs/dist/jquery.jqplot.min.css" />
     <script>
-    jQuery( function() {
+    $( function() {
         var result = [];
         var client_id = <%= $client_id %>;
         var scriptUrl = "datas/" + String(client_id) + "/graph_plot.json";
-        jQuery.ajax({
+        $.ajax({
             url: scriptUrl,
             async: false,
             dataType: "json",
@@ -39,7 +71,7 @@
                 }
             }
         };
-        jQuery.jqplot('jqPlot-sample', [result], options);
+        $.jqplot('jqPlot-sample', [result], options);
     } );
     </script>
   </head>

@@ -114,12 +114,12 @@ sub detail {
       # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
   };
   # 日付の変更
-  foreach my $date ($start_date, $end_date) {
-    my ($year, $month, $day) = split('-', $date);
-    $date = $year . "年" . $month . "月" . $day . "日";
-    # $date = url_escape $date;
-    $self->app->log->debug("date is $date");
-  }
+  # foreach my $date ($start_date, $end_date) {
+  #   my ($year, $month, $day) = split('-', $date);
+  #   $date = $year . "年" . $month . "月" . $day . "日";
+  #   # $date = url_escape $date;
+  #   $self->app->log->debug("date is $date");
+  # }
 
   $self->app->log->debug("graph plot parameter dumps below");
   $self->app->log->debug("\n", dumper \$ga_graph);
