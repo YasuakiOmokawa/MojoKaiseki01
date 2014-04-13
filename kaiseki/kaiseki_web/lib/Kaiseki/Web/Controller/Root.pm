@@ -36,23 +36,24 @@ sub selectdetail {
 sub detail {
   my $self = shift;
   $self->stash->{error} = '';
-  # $self->stash->{client_id} = $self->req->param('client_id');
 
   my $start_date = $self->req->param('start_date');
-  my $end_date = $self->req->param('end_date');
+  # my $end_date = $self->req->param('end_date');
   my $goal = $self->req->param('goal');
   my $metrics = $self->req->param('metrics');
-  # $self->stash->{start_date} = '';
-  # $self->stash->{end_date} = '';
-  # $self->stash->{start_date} = $start_date;
-  # $self->stash->{end_date} = $end_date;
-  # $self->stash->{error} = '';
 
   # パラメータのデバッガ
   my $req_params = $self->req->params->to_hash;
   $self->app->log->debug('all request parameter routing /detail dumps below');
   # warn dumper $req_params, "\n";
   $self->app->log->debug("\n", dumper $req_params);
+
+  # 初期表示のときは、本日日付を取得
+  my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime(time);
+  if ($start_date eq "1900-01-01") {
+    $start_date = sprintf("%04d-%02d-%02d", $year + 1900, $mon + 1, $mday);
+  }
+  my $end_date = sprintf("%04d-%02d-%02d", $year + 1900, $mon + 2, $mday);
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;

@@ -3,15 +3,16 @@
 
 <h1>分析結果を表示します</h1>
 <pre>
-# 詳細結果ページです。
+# 指定日から１ヶ月後のデータを表示します。
 </pre>
 
 <!-- カレンダー -->
 <form action="/detail">
     <label for="from">From</label>
-    <input type="text" name="start_date" id="start_date">
+    <input type="text" name="start_date" id="start_date" readonly="readonly">
     <label for="from">to</label>
-    <input type="text" name="end_date" id="end_date">
+    <span><%= $end_date %></span>
+    <!-- <input type="text" name="end_date" id="end_date" readonly="readonly"> -->
     <input type="hidden" name="goal" value="ga:goal1Value">
     <input type="hidden" name="metrics" value="ga:pageviews">
 <input type="submit" value="再計算">

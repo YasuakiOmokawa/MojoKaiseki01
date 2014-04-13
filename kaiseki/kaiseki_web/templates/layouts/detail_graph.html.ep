@@ -8,32 +8,37 @@
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script>
     $(function() {
-        var start_date = <%= $start_date %>;
-        var end_date = <%= $end_date %>;
+        var start_date = "<%= $start_date %>";
+        // var end_date = "<%= $end_date %>";
         $.datepicker.setDefaults( $.datepicker.regional[ "ja" ] );
-        $( "#start_date").datepicker("setDate", start_date);
-        $( "#end_date").datepicker("setDate", end_date);
         $( "#start_date" ).datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
             numberOfMonths: 2,
-            onClose: function( selectedDate ) {
-                $( "#end_date" ).datepicker( "option", "maxDate", "+1m");
-                $( "#end_date" ).datepicker( "option", "minDate", selectedDate);
-                // $( "#end_date" ).datepicker("setDate", "selectedDate +1m");
-            }
-        });
-        $( "#end_date" ).datepicker({
-            dateFormat: 'yy-mm-dd',
-            changeMonth: true,
-            changeYear: true,
-            numberOfMonths: 2,
-            onClose: function( selectedDate ) {
-                $( "#start_date" ).datepicker( "option", "maxDate", selectedDate);
-                $( "#start_date" ).datepicker( "option", "minDate", "-1m");
-            }
-        });
+            constrainInput: true,
+            // onClose: function( selectedDate ) {
+                // $( "#end_date" ).datepicker( "option", "maxDate", "+1m");
+                // $( "#end_date" ).datepicker( "option", "minDate", selectedDate);
+                
+                // $( "#end_date" ).datepicker("setDate", selectedDate);
+                // $( "#end_date" ).datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", "selectedDate+1m");
+            // }
+        }).datepicker("setDate", start_date);
+        // $( "#end_date" ).datepicker({dateFormat: 'yy-mm-dd'}).datepicker("setDate", end_date);
+        // $( "#end_date" ).datepicker({
+        //     dateFormat: 'yy-mm-dd',
+        //     changeMonth: true,
+        //     changeYear: true,
+        //     numberOfMonths: 2,
+        //     constrainInput: true,
+        //     // showOn: "button",
+        //     // buttonImageOnly: true,
+        //     // onClose: function( selectedDate ) {
+        //     //     $( "#start_date" ).datepicker( "option", "maxDate", selectedDate);
+        //     //     // $( "#start_date" ).datepicker( "option", "minDate", "-1m");
+        //     // }
+        // }).datepicker("setDate", end_date);
     });
     </script>
     <!--[if lt IE 9]>
@@ -54,7 +59,8 @@
             dataType: "json",
             success: function(data) {
                 for(date in data) {
-                    result.push([String(date).slice(6), data[date]['diff']]);
+                    result.push([String(date).slice(4), data[date]['diff']]);
+                    // console.log(String(date).slice(4));
                 }
             } 
          });
