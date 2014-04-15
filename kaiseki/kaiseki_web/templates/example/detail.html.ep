@@ -13,8 +13,44 @@
     <label for="from">to</label>
     <span><%= $end_date %></span>
     <!-- <input type="text" name="end_date" id="end_date" readonly="readonly"> -->
-    <input type="hidden" name="goal" value="ga:goal1Value">
-    <input type="hidden" name="metrics" value="ga:pageviews">
+    <!-- <input type="hidden" name="goal" value="ga:goal1Value"> -->
+    <select name="goal">
+        <option value="ga:goal1Value"<% if ($goal_value eq "ga:goal1Value") { %> selected<% } %>>目標1</option>
+        <option value="ga:goal2Value"<% if ($goal_value eq "ga:goal2Value") { %> selected<% } %>>目標2</option>
+        <option value="ga:goal3Value"<% if ($goal_value eq "ga:goal3Value") { %> selected<% } %>>目標3</option>
+        <option value="ga:goal4Value"<% if ($goal_value eq "ga:goal4Value") { %> selected<% } %>>目標4</option>
+        <option value="ga:goal5Value"<% if ($goal_value eq "ga:goal5Value") { %> selected<% } %>>目標5</option>
+        <option value="ga:goal6Value"<% if ($goal_value eq "ga:goal6Value") { %> selected<% } %>>目標6</option>
+        <option value="ga:goal7Value"<% if ($goal_value eq "ga:goal7Value") { %> selected<% } %>>目標7</option>
+        <option value="ga:goal8Value"<% if ($goal_value eq "ga:goal8Value") { %> selected<% } %>>目標8</option>
+        <option value="ga:goal9Value"<% if ($goal_value eq "ga:goal9Value") { %> selected<% } %>>目標9</option>
+        <option value="ga:goal10Value"<% if ($goal_value eq "ga:goal10Value") { %> selected<% } %>>目標10</option>
+        <option value="ga:goal11Value"<% if ($goal_value eq "ga:goal11Value") { %> selected<% } %>>目標11</option>
+        <option value="ga:goal12Value"<% if ($goal_value eq "ga:goal12Value") { %> selected<% } %>>目標12</option>
+        <option value="ga:goal13Value"<% if ($goal_value eq "ga:goal13Value") { %> selected<% } %>>目標13</option>
+        <option value="ga:goal14Value"<% if ($goal_value eq "ga:goal14Value") { %> selected<% } %>>目標14</option>
+        <option value="ga:goal15Value"<% if ($goal_value eq "ga:goal15Value") { %> selected<% } %>>目標15</option>
+        <option value="ga:goal16Value"<% if ($goal_value eq "ga:goal16Value") { %> selected<% } %>>目標16</option>
+        <option value="ga:goal17Value"<% if ($goal_value eq "ga:goal17Value") { %> selected<% } %>>目標17</option>
+        <option value="ga:goal18Value"<% if ($goal_value eq "ga:goal18Value") { %> selected<% } %>>目標18</option>
+        <option value="ga:goal19Value"<% if ($goal_value eq "ga:goal19Value") { %> selected<% } %>>目標19</option>
+        <option value="ga:goal20Value"<% if ($goal_value eq "ga:goal20Value") { %> selected<% } %>>目標20</option>
+    </select>
+    <!-- <input type="hidden" name="metrics" value="ga:pageviews"> -->
+    <select name="metrics">
+        <option value="ga:pageviews"<% if ($metrics eq "ga:pageviews") { %> selected<% } %>>PV数</option>
+        <option value="ga:visitors"<% if ($metrics eq "ga:visitors") { %> selected<% } %>>訪問数</option>
+        <option value="ga:pageviewsPerVisit"<% if ($metrics eq "ga:pageviewsPerVisit") { %> selected<% } %>>平均PV数</option>
+        <option value="ga:avgTimeOnPage"<% if ($metrics eq "ga:avgTimeOnPage") { %> selected<% } %>>平均滞在時間</option>
+        <option value="ga:percentNewVisits"<% if ($metrics eq "ga:percentNewVisits") { %> selected<% } %>>新規訪問率</option>
+        <!-- <option value="サンプル3">リピート訪問率</option> -->
+        <!-- <option value="ga:pageviews">リピート回数</option> -->
+        <!-- <option value="ga:visitors">リピート間隔</option> -->
+        <option value="ga:visit_bounce_rate"<% if ($metrics eq "ga:visit_bounce_rate") { %> selected<% } %>>直帰率</option>
+        <!-- ( 小バグ )CV数をレンダリングしたとき、$goalの値が一致しないケースがあるか調査 -->
+        <option value="ga:goal<%= $goal %>Completions"<% if ($metrics eq "ga:goal" . $goal . "Completions") { %> selected<% } %>>CV数</option>
+        <!-- <option value="サンプル3">CV期間</option> -->
+    </select>
 <input type="submit" value="再計算">
 
 <!-- 全体指標テーブル -->

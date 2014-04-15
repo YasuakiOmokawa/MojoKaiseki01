@@ -58,6 +58,7 @@ sub detail {
   else {
     $start_date = localtime( Time::Piece->strptime($start_date, '%Y-%m-%d') );
   }
+  $self->app->log->debug( "Time::Piece ",$Time::Piece::VERSION,"\n" );
   my $end_date = $start_date->add_months(1);
   $start_date = $start_date->ymd;
   $end_date = $end_date->ymd;
@@ -129,6 +130,11 @@ sub detail {
   #   $self->app->log->debug("date is $date");
   # }
 
+
+  # メトリクス選択ボックスの値に使うため、ga:goalXXValue のうちの数値だけ取り出し
+  my $goal_value = $goal;
+  $goal =~ s/[^\d+]//g;
+
   $self->app->log->debug("graph plot parameter dumps below");
   $self->app->log->debug("\n", dumper \$ga_graph);
 
@@ -136,6 +142,9 @@ sub detail {
   $self->stash->{end_date} = $end_date;
   $self->stash->{client_id} = $client_id;
   $self->stash->{ga_graph} = $ga_graph;
+  $self->stash->{goal} = $goal;
+  $self->stash->{goal_value} = $goal_value;
+  $self->stash->{metrics} = $metrics;
 
 
   #### ↓これは全体指標の項目 ####
