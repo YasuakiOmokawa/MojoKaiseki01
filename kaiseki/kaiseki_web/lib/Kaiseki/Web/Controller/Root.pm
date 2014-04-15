@@ -10,6 +10,9 @@ use Carp 'croak';
 use Mojo::IOLoop;
 use JSON qw(encode_json);
 use Mojo::Util qw(dumper url_escape);
+use Time::Piece;
+use Time::Seconds;
+
 
 # Liteの、get '/' => sub {　部分
 sub index {
@@ -48,12 +51,16 @@ sub detail {
   # warn dumper $req_params, "\n";
   $self->app->log->debug("\n", dumper $req_params);
 
-  # 初期表示のときは、本日日付を取得
-  my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime(time);
+  # 初期表示(1900-01-01)のときは、本日日付を取得
   if ($start_date eq "1900-01-01") {
-    $start_date = sprintf("%04d-%02d-%02d", $year + 1900, $mon + 1, $mday);
+    $start_date = localtime;
   }
-  my $end_date = sprintf("%04d-%02d-%02d", $year + 1900, $mon + 2, $mday);
+  else {
+    $start_date = localtime( Time::Piece->strptime($start_date, '%Y-%m-%d') );
+  }
+  my $end_date = $start_date->add_months(1);
+  $start_date = $start_date->ymd;
+  $end_date = $end_date->ymd;
 
   # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;

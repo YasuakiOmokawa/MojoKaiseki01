@@ -17,6 +17,9 @@
             changeYear: true,
             numberOfMonths: 2,
             constrainInput: true,
+            showOn: "button",
+            buttonImage: "img/calendar.gif",
+            buttonImageOnly: true
             // onClose: function( selectedDate ) {
                 // $( "#end_date" ).datepicker( "option", "maxDate", "+1m");
                 // $( "#end_date" ).datepicker( "option", "minDate", selectedDate);

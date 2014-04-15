@@ -3,7 +3,7 @@
 
 <h1>分析結果を表示します</h1>
 <pre>
-# 指定日から１ヶ月後のデータを表示します。
+# 指定日から１ヶ月間のデータを表示します。
 </pre>
 
 <!-- カレンダー -->
@@ -27,7 +27,7 @@
     </td> 
 </table>
  -->        
-<div id="jqPlot-sample" style="height: 150px; width: 750px;"></div>
+<div id="jqPlot-sample" style="height: 150px; width: 1280px;"></div>
         
 <!-- グラフ情報テーブル -->
 % if ($ga_graph) {	
@@ -41,7 +41,7 @@
             % foreach my $day (sort keys $ga_graph) {
 	         		% $is_holiday = "is-holiday-" . $ga_graph->{$day}->{is_holiday};
             	<tr class="<%= $is_holiday %>">
-            	% my $sliced_day = substr($day, 6);
+            	% my $sliced_day = substr($day, 4);
             		<td class="plot-day"><%= $sliced_day %></td>
 <!--             		<td class="ok-value"><%= $ga_graph->{$day}->{good} %></td>
             		<td class="bad-value"><%= $ga_graph->{$day}->{bad} %></td>
