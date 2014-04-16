@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <button id="btn">Authorize</button>
+    <div id="profiles"></div>
+
+    <script>
+      var apiKey = "AIzaSyDX7oZxMwk7O9Lh6DTO2jk1vvDAeQ3bTKo";
+      var clientId = "85989112199.apps.googleusercontent.com";
+      var scope = "https://www.googleapis.com/auth/analytics.readonly";
+
+      var config = { "client_id": clientId, "scope": scope };
+
+      function load() {
+        gapi.client.setApiKey(apiKey);
+
+        setTimeout(checkAuth, 1000);
+      }
+
+      function checkAuth() {
+        config.immediate = true;
+
+        gapi.auth.authorize(config, handleAuthorize);
+      }
+
+      function handleAuthorize(result) {
+          if (result) {
+            document.getElementById("btn").style.display = "none";
+
+            gapi.client.load("analytics", "v3", initAnalytics);
+          } else {
+            document.getElementById("btn").addEventListener("click", function() {
+              config.immediate = false;
+
+              gapi.auth.authorize(config, handleAuthorize);
+
+              return false;
+            });
+          }
+      }
+
+      function initAnalytics() {
+        gapi.client.analytics.management.accounts.list().execute(handleAccounts);
+      }
+
+      function handleAccounts(results) {
+        var accountId = results.items[0].id;
+
+        gapi.client.analytics.management.webproperties.list({
+          "accountId": accountId
+        }).execute(function(results) {
+          var profiles = document.getElementById("profiles");
+
+          results.items.forEach(function(result) {
+            var name = result.name;
+
+            gapi.client.analytics.management.profiles.list({
+              "accountId": accountId,
+              "webPropertyId": result.id
+            }).execute(function(results) {
+              results.items.forEach(function(result) {
+                gapi.client.analytics.data.ga.get({
+                  "ids": "ga:" + result.id,
+                  "start-date": "2012-09-05",
+                  "end-date": "2012-09-05",
+                  "metrics": "ga:visits"
+                }).execute(function(results) {
+                  var count = 0;
+
+                  results.rows.forEach(function(result) {
+                      count += parseInt(result);
+                  });
+
+                  var h2 = document.createElement("h2");
+                  h2.innerText = name + " (" + count + ")";
+
+                  profiles.appendChild(h2);
+                });
+              });
+            });
+          });
+        });
+      }
+    </script>
+    <script src="https://apis.google.com/js/client.js?onload=load"></script>
+  </body>
+</html>
