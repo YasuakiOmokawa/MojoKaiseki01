@@ -1,0 +1,28 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Hello Google Analytics API</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <!-- 認証処理系ボタン -->
+    <button id="authorize-button" style="visibility: hidden">googleアカウント認証</button><br/>
+    <button id="logout-button" style="visibility: hidden" onclick="location.href='https://accounts.google.com/logout'">googleアカウント認証解除</button>
+    <!-- アカウント情報 -->
+    <p id="g_account_name"></p>
+    <!-- プロパティ情報 -->
+    <label id="g_property_select_label"></label>
+    <select id="g_property_select" name="g_property_select" style="visibility: hidden"></select>
+    <br>
+    <!-- プロファイル（ビュー）情報 -->
+    <label id="g_profile_select_label"></label>
+    <select id="g_profile_select" name="g_profile_select" style="visibility: hidden"></select>
+
+    <!-- アナリティクスapi認証プログラム -->
+    <script src="hello_analytics_api_v3_auth.js"></script>
+    <script src="hello_analytics_api_v3.js"></script>
+
+    <!-- htmlが読み込まれたときに、最初に実行される関数を定義 -->
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+  </body>
+</html>
