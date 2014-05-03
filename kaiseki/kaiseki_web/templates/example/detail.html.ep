@@ -1,19 +1,39 @@
 % layout 'detail_graph';
 % title '詳細表示画面';
 
-<h1>分析結果を表示します</h1>
+<h1>分析結果を表示</h1>
 <pre>
 # 指定日から１ヶ月間のデータを表示します。
 </pre>
 
-<!-- カレンダー -->
+
+<!-- ▼▼▼ アナリティクス認証ここから ▼▼▼ -->
+    <!-- 認証処理系ボタン -->
+    <button id="authorize-button" style="visibility: hidden">googleアカウント認証</button><br/>
+    <button id="logout-button" style="visibility: hidden" onclick="location.href='https://accounts.google.com/logout'">googleアカウント認証解除</button>
+    <!-- アカウント情報 -->
+    <p id="g_account_name"></p>
+    <!-- プロパティ情報 -->
+    <label id="g_property_select_label"></label>
+    <select id="g_property_select" name="g_property_select" style="visibility: hidden"></select>
+    <!-- プロファイル（ビュー）情報 -->
+    <label id="g_profile_select_label"></label>
+    <select id="g_profile_select" name="g_profile_select" style="visibility: hidden"></select>
+    <br>
+<!-- ▲▲▲ アナリティクス認証ここまで ▲▲▲ -->
+
+<!-- ▼▼▼　レポート取得用フォームここから　▼▼▼ -->
 <form action="/detail">
+    <!-- プロファイル（ビュー）id -->
+    <input type="hidden" name="g_view_id" id="g_view_id"></input>
+    <!-- カレンダー -->
     <label for="from">From</label>
     <input type="text" name="start_date" id="start_date" readonly="readonly">
     <label for="from">to</label>
     <span><%= $end_date %></span>
     <!-- <input type="text" name="end_date" id="end_date" readonly="readonly"> -->
     <!-- <input type="hidden" name="goal" value="ga:goal1Value"> -->
+    <!-- 目標値（ゴール） --> 
     <select name="goal">
         <option value="ga:goal1Value"<% if ($goal_value eq "ga:goal1Value") { %> selected<% } %>>目標1</option>
         <option value="ga:goal2Value"<% if ($goal_value eq "ga:goal2Value") { %> selected<% } %>>目標2</option>
@@ -36,7 +56,7 @@
         <option value="ga:goal19Value"<% if ($goal_value eq "ga:goal19Value") { %> selected<% } %>>目標19</option>
         <option value="ga:goal20Value"<% if ($goal_value eq "ga:goal20Value") { %> selected<% } %>>目標20</option>
     </select>
-    <!-- <input type="hidden" name="metrics" value="ga:pageviews"> -->
+    <!-- アナリティクスから取得する項目（メトリクス） -->
     <select name="metrics">
         <option value="ga:pageviews"<% if ($metrics eq "ga:pageviews") { %> selected<% } %>>PV数</option>
         <option value="ga:visitors"<% if ($metrics eq "ga:visitors") { %> selected<% } %>>訪問数</option>
@@ -52,6 +72,8 @@
         <!-- <option value="サンプル3">CV期間</option> -->
     </select>
 <input type="submit" value="再計算">
+<!-- ▲▲▲　レポート取得用フォームここまで　▲▲▲ -->
+
 
 <!-- 全体指標テーブル -->
 <!-- <table>

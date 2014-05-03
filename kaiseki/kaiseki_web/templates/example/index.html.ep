@@ -1,8 +1,8 @@
 % layout 'default';
 % title 'Google Analytics ビューデータ比較 version 0.0.3';
-<h1>API再使用</h1>
+<h1>welcome to KK Analytics Service!!</h1>
 <pre>
-# 開始ボタンで開始します
+# 開始ボタンを押すなよ？絶対に押すなよ！？
 </pre>
 <form action="/detail">
   <div>

@@ -4,6 +4,11 @@ use utf8;
 use Net::Google::Analytics;
 use Net::Google::Analytics::OAuth2;
 use Data::Dumper;
+use Log::Minimal;
+
+# debug is ok? 1 is ok.
+$ENV{LM_DEBUG} = 1;
+$Log::Minimal::TRACE_LEVEL = 1;
 
 sub new {	
 
@@ -20,34 +25,25 @@ sub new {
 	######################################
 
 
-	# リクエストパラメータ用に加工
-	my $metricses = join(',', @metricses);
-
 	# Google Analytics APIの認証
-	my $analytics = Net::Google::Analytics->new;
-	my $oauth = Net::Google::Analytics::OAuth2->new(
-		client_id => $client_id,
-		client_secret => $client_secret,
-		redirect_uri => 'http://localhost/oauth2callback',
-	);
-	my $token = $oauth->refresh_access_token($refresh_token);
-	$analytics->token($token);
-	return $analytics;
+	debugf("start googleAnalytics api authent");
+	eval {
+		my $analytics = Net::Google::Analytics->new;
+		my $oauth = Net::Google::Analytics::OAuth2->new(
+			client_id => $client_id,
+			client_secret => $client_secret,
+			redirect_uri => 'http://localhost/oauth2callback',
+		);
+		my $token = $oauth->refresh_access_token($refresh_token);
+		$analytics->token($token);		
+		return $analytics;
+	};
 
-	# 取り出したいパラメータを指定
-	# my $req = $analytics->new_request(
-	# 	ids			=> "ga:$view_id",
-	# 	metrics		=> "$metricses",
-	# 	start_date	=> "$start_date",
-	# 	end_date	=> "$end_date",
-	# 	filters		=> "$param_filter",
-	# 	dimensions  => "ga:goalCompletionLocation"
-	# );
-	# my $res = $analytics->retrieve($req);
-	# die("Error: \$metricses is $metricses" . "\n" . $res->error_message) if !$res->is_success;
-	# # 取得内容確認
-	# # print Dumper $res;
-	# return $res;
+	if($@) {
+		warnf("googleAnalytics api authent failed. $@");
+		exit(255);
+	}
+
 }
 
 1;

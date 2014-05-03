@@ -413,29 +413,29 @@ sub entoJp {
 	return \%hash;
 }
 
-sub getgaauth {
-	my ($self, $user_id) = @_;
+sub get_ga_auth {
+	my ($self, $id) = @_;
 
 	my $teng = Kaiseki::DB::connDB->new;
-	# DBIのAutoCommit = 0 にするとselect文でもrollback
-	# エラー文が出力されるので、全sqlでトランザクション宣言を行う。
+	# DBIのAutoCommit = 0 にするとselect文でもrollbackエラー文が出力されるので、
+	# 全sqlでトランザクション宣言を行う。
 	$teng->txn_begin;
 	my $itr = $teng->search_by_sql(
 		# 第一引数に発行したい生SQL
 		# 第二引数にbindさせる値のarrayref
-		# 第三引数に結果をどのテーブルをベースにrowオブジェクトにするかの指定
+		# 第三引数に結果をどのテーブルをベースにrowオブジェクトにするかの指定（テーブル名と同じ）
 		q{
 			SELECT
 				client_id,
 				client_secret,
 				refresh_token
 			FROM
-				`gaauth`
+				`m_googleapis_auth`
 			WHERE
-				user_id = ?
+				id = ?
 		},
-		[$user_id],
-		'gaauth'
+		[$id],
+		'm_googleapis_auth'
 	);
 	$teng->txn_commit;
 	# print Dumper $itr;

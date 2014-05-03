@@ -44,6 +44,7 @@ sub detail {
   # my $end_date = $self->req->param('end_date');
   my $goal = $self->req->param('goal');
   my $metrics = $self->req->param('metrics');
+  my $view_id = $self->req->param('g_profile_select');
 
   # パラメータのデバッガ
   my $req_params = $self->req->params->to_hash;
@@ -63,34 +64,35 @@ sub detail {
   $start_date = $start_date->ymd;
   $end_date = $end_date->ymd;
 
-  # アナリティクスビューIDの取得
   my $kaiseki = Kaiseki::Model::Kaiseki->new;
-  my ($view_id) = $kaiseki->getgaviewid(1, 1);
 
   my ($client_id, $client_secret, $refresh_token);
   my $ga_graph;
   eval{
     # アナリティクス認証データの取得
-      ($client_id, $client_secret, $refresh_token) = $kaiseki->getgaauth(1);
+      ($client_id, $client_secret, $refresh_token) = $kaiseki->get_ga_auth(1);
+      $self->app->log->debug('get db parameter for requests analytics api dumps below');
+      $self->app->log->debug("\n" . dumper $client_id . "\n" . $client_secret . "\n" . $refresh_token);
       my $analytics = Kaiseki::GA::useGA->new(
         $client_id,
         $client_secret,
         $refresh_token
       );
 
-      # client_idの数値以外を削除（ディレクトリ名に使いたいから）
+      # client_idの数値以外を削除（ディレクトリ名に使いたいから） ←ログイン画面実装後にユーザidにしておく
       $client_id =~ s/[^0-9]//g;
 
       # アナリティクスデータログの格納ファイルパス
       my $homedir = $self->app->home;
       my $filedir = $homedir . "/public/datas/" . $client_id;
       if (not -d $filedir) {
-        print "ディレクトリ $filedir が存在しません。作成します\n";
+        $self->app->log->debug("ディレクトリ $filedir が存在しません。作成します");
         mkdir $filedir;
       }
 
       # 表示データのファイル名
       my $file = $filedir . "/" . "graph_plot.json";
+      $self->app->log->debug("graph_plot json path is " . $file);
 
       # グラフテンプレートの作成
       $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
