@@ -542,10 +542,10 @@ sub get_ga_graph {
 
 	foreach my $filtering_sign ("<=0", ">0") {
 		my $filter = $filter_param . $filtering_sign;
-		debugf("\$filtering_parameter is $filter");
+		debugf("all get_ga_graph parameter is @_ ");
 		# print "$self : \$filtering_parameter is: " . $filter,"\n";
 		my $req = $analytics->new_request(
-			ids					=> "ga:$view_id",
+			ids					=> "ga:" . $view_id,
 			metrics			=> "$metrics",
 			start_date	=> "$start_date",
 			end_date		=> "$end_date",
@@ -573,7 +573,6 @@ sub get_ga_graph {
 		}
 	}
 	# print Dumper \%elements_for_graph,"\n";
-
 	return $elements_for_graph;
 }
 

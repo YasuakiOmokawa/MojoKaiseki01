@@ -1,5 +1,17 @@
 //アナリティクスアカウント情報取得のためのjavascript
 
+// jsファイル内の共通プロパティ
+var accountId; // アナリティクスアカウントID
+// webプロパティ .. webデータの集計単位
+var webpropertyId; // webプロパティID
+var webpropertyName; // webプロパティ名
+// プロファイル（ビュー） .. webプロパティの閲覧可能単位
+var profileId; // プロファイル（ビュー）ID
+var profileName; // プロファイル（ビュー）名
+var $jqObj; // jqueryオブジェクト一時格納用
+var $div // DOM要素一時格納用
+
+
 // セッション情報取得ボタンがクリックされたときに実行される関数
 function makeApiCall() {
   queryAccounts();
@@ -19,9 +31,8 @@ function handleAccounts(results) {
       // 最初に登録されたアナリティクスアカウントidを取得
       var firstAccountId = results.items[0].id;
       var firstAccountName = results.username;
-      var $jqObj;
       console.log('authorized account name is ' + firstAccountName);
-      var $div = $("#g_account_name");
+      $div = $("#g_account_name");
       $jqObj = $("<p>").text("現在 " + firstAccountName + " として認証されています");
       $div.append($jqObj);
 
@@ -56,8 +67,7 @@ function handleWebproperties(results) {
   if (!results.code) {
     if (results && results.items && results.items.length) {
 
-      var accountId = results.items[0].accountId; // ウェブプロパティ取得用に、アナリティクスアカウントidを取得
-      var webpropertyId, webpropertyName, $jqObj;
+      accountId = results.items[0].accountId; // ウェブプロパティ取得用に、アナリティクスアカウントidを取得
       var $propertySelect = $("#g_property_select");
       $("#g_property_select > option").remove();
       var web_idx = 0;
@@ -100,7 +110,6 @@ function handleProfiles(results) {
   if (!results.code) {
     if (results && results.items && results.items.length) {
 
-      var profileId, profileName, $jqObj;
       var $profileSelect = $("#g_profile_select");
       var view_idx = 0;
       idx = parseInt(view_idx);
@@ -114,10 +123,9 @@ function handleProfiles(results) {
       }
 
       // セレクトボックス選択したときのイベント追加
-      $propertySelect.change(function () {
-        webpropertyId = $("#g_profile_select").val();
-        $("#g_profile_select > option").remove();
-        queryProfiles(accountId, webpropertyId);
+      $profileSelect.change(function () {
+        profileId = $("#g_profile_select").val();
+        $("#g_view_id").val(profileId);
       }).change();
       // Step 3. 実際のレポートを取得する
       // queryCoreReportingApi(firstProfileId);

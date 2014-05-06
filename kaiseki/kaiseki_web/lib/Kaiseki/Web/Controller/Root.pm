@@ -44,7 +44,7 @@ sub detail {
   # my $end_date = $self->req->param('end_date');
   my $goal = $self->req->param('goal');
   my $metrics = $self->req->param('metrics');
-  my $view_id = $self->req->param('g_profile_select');
+  my $view_id = $self->req->param('g_view_id');
 
   # パラメータのデバッガ
   my $req_params = $self->req->params->to_hash;
@@ -79,12 +79,12 @@ sub detail {
         $refresh_token
       );
 
-      # client_idの数値以外を削除（ディレクトリ名に使いたいから） ←ログイン画面実装後にユーザidにしておく
-      $client_id =~ s/[^0-9]//g;
+      # ユーザid ←ログイン画面実装後にユーザidにしておく
+      my $user_id = 1;
 
       # アナリティクスデータログの格納ファイルパス
       my $homedir = $self->app->home;
-      my $filedir = $homedir . "/public/datas/" . $client_id;
+      my $filedir = $homedir . "/public/datas/d" . $user_id;
       if (not -d $filedir) {
         $self->app->log->debug("ディレクトリ $filedir が存在しません。作成します");
         mkdir $filedir;

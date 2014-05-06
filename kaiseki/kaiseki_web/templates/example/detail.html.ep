@@ -19,7 +19,7 @@
     <!-- プロファイル（ビュー）情報 -->
     <label id="g_profile_select_label"></label>
     <select id="g_profile_select" name="g_profile_select" style="visibility: hidden"></select>
-    <br>
+    <br/>
 <!-- ▲▲▲ アナリティクス認証ここまで ▲▲▲ -->
 
 <!-- ▼▼▼　レポート取得用フォームここから　▼▼▼ -->

@@ -35,7 +35,8 @@ sub new {
 			redirect_uri => 'http://localhost/oauth2callback',
 		);
 		my $token = $oauth->refresh_access_token($refresh_token);
-		$analytics->token($token);		
+		$analytics->token($token);
+		print Dumper $analytics;
 		return $analytics;
 	};
 
