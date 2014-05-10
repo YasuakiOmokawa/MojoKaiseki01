@@ -56,11 +56,11 @@
     <script language="javascript" type="text/javascript" src="js/libs/dist/plugins/jqplot.barRenderer.min.js"></script>
     <script language="javascript" type="text/javascript" src="js/libs/dist/plugins/jqplot.categoryAxisRenderer.min.js"></script>
     <link rel="stylesheet" type="text/css" href="js/libs/dist/jquery.jqplot.min.css" />
+    <!-- ↓グラフプロットデータの受け取りとグラフの生成 -->
     <script>
     $( function() {
         var result = [];
-        var client_id = <%= $client_id %>;
-        var scriptUrl = "datas/" + String(client_id) + "/graph_plot.json";
+        var scriptUrl = "<%= $jquery_ajax_plot_path %>";
         $.ajax({
             url: scriptUrl,
             async: false,
@@ -70,7 +70,10 @@
                     result.push([String(date).slice(4), data[date]['diff']]);
                     // console.log(String(date).slice(4));
                 }
-            } 
+            },
+            error: function() {
+                $("#ajax-error").text('グラフプロットデータを読み込めませんでした。速やかに管理者へ連絡してください。');
+            }
          });
         var options = {
             axes: {

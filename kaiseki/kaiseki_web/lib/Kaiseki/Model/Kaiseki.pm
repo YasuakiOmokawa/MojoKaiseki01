@@ -13,7 +13,8 @@ use URI;
 # use Time::HiRes 'sleep';
 use Storable;
 use Storable qw(nstore);
-use Carp 'croak';
+use Carp qw(croak);
+use Carp qw(verbose); # 完全なスタックトレースを実施したい場合はコメントアウトを外してください
 use Log::Minimal;
 
 # debug is ok? 1 is ok.
@@ -537,42 +538,54 @@ sub get_ga_graph {
 		$start_date,
 		$end_date,
 		$metrics,
-		$homedir,
 		$elements_for_graph ) = @_;
 
-	foreach my $filtering_sign ("<=0", ">0") {
-		my $filter = $filter_param . $filtering_sign;
-		debugf("all get_ga_graph parameter is @_ ");
-		# print "$self : \$filtering_parameter is: " . $filter,"\n";
-		my $req = $analytics->new_request(
-			ids					=> "ga:" . $view_id,
-			metrics			=> "$metrics",
-			start_date	=> "$start_date",
-			end_date		=> "$end_date",
-			filters			=> "$filter",
-			dimensions  => "ga:date"
-		);
-		my $res = $analytics->retrieve($req);
-		die("Error: " . $res->error_message) if !$res->is_success;
-		# 取得内容確認し、返却数が1以上ならテンプレートの書き換えを行う
-		# print Dumper \$res;
-		if ($res->total_results >= 1) {
-			foreach my $row_ref ($res->{rows}) {
-				# 理想値、現実値を判別してテンプレートに値を挿入する
-				foreach my $day (@{$row_ref}) {
-					if ($filter_param =~ />/) {
-						$elements_for_graph->{$day->[0]}->{good} = $day->[1];
+	debugf("get_ga_graphへ渡されたパラメータ: @_");
+	$view_id = 'ga:' . $view_id;
+	my $res;
+	eval {
+
+		foreach my $filtering_sign ('<=0', '>0') {
+			my $filter = $filter_param . $filtering_sign;
+			debugf("$filter パラメータでフィルタリングを実施します。");
+			my $req = $analytics->new_request(
+				ids					=> $view_id,
+				metrics			=> "$metrics",
+				start_date	=> "$start_date",
+				end_date		=> "$end_date",
+				filters			=> "$filter",
+				dimensions  => "ga:date"
+			);
+			$res = $analytics->retrieve($req);
+			# 取得内容確認し、返却数が1以上ならテンプレートの書き換えを行う
+			debugf("アナリティクスAPIレポートの出力を以下にダンプします");
+			print Dumper $res;
+			if ($res->total_results >= 1) {
+				debugf("アナリティクスAPIから取得した値が" . $res->total_results . "件なので、置き換えを実施します。");
+				foreach my $row_ref ($res->{rows}) {
+					# 理想値、現実値を判別してテンプレートに値を挿入する
+					foreach my $day (@{$row_ref}) {
+						if ($filter_param =~ />/) {
+							$elements_for_graph->{$day->[0]}->{good} = $day->[1];
+						}
+						else {
+							$elements_for_graph->{$day->[0]}->{bad} = $day->[1];
+						}
+						# diff値を計算する
+						$elements_for_graph->{$day->[0]}->{diff} = $elements_for_graph->{$day->[0]}->{bad} - $elements_for_graph->{$day->[0]}->{good};
 					}
-					else {
-						$elements_for_graph->{$day->[0]}->{bad} = $day->[1];
-					}
-					# diff値を計算する（ここに入れていいか？）
-					$elements_for_graph->{$day->[0]}->{diff} = $elements_for_graph->{$day->[0]}->{bad} - $elements_for_graph->{$day->[0]}->{good};
 				}
+				debugf("置き換えが完了しました。");
+			}
+			else {
+				debugf("アナリティクスAPIから取得した値が0件なので、置き換えを実施しません。");
 			}
 		}
-	}
-	# print Dumper \%elements_for_graph,"\n";
+
+	};
+	croak("Reporting googleAnalytics API parameter failed: $@") if ($@);
+	debugf("置き換え後のテンプレートを以下にダンプします");
+	print Dumper $elements_for_graph;
 	return $elements_for_graph;
 }
 
@@ -583,44 +596,48 @@ sub get_ga_graph_template {
 	my ($self, $start_date, $end_date) = @_;
 
 	# 開始、終了期間の日数を出す
-	foreach my $date ($start_date, $end_date) {
-		my ($year, $month, $day) = split('-', $date);
-		$date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
-	}
-	my $days = $end_date - $start_date;	
-
 	my $hash_days = {};
-	my %days_common = (
-		good	=> 0,
-		bad		=> 0,
-		diff 	=> 0,
-	);
-	my $days_common = \%days_common;
-	while ($days >= 0) {
-		my ($month, $day, $year) = split('/', $start_date);
+	eval {
+		foreach my $date ($start_date, $end_date) {
+			my ($year, $month, $day) = split('-', $date);
+			$date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
+		}
+		my $days = $end_date - $start_date;	
 
-		# 土日祝日判定(Calendarモジュールはweekdayが 1~5 だと平日)
-		my $date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
-		my $week = $date->weekday;
-		my $holiday_flg = isHoliday($date->year, $date->month, $date->day, 1); # 1が付いてると振替休日判定追加
-		# print $holiday_flg;
-		$date = $year . $month . $day;
-		if ($week =~ m/(0|6)/ or $holiday_flg) {
-			$hash_days->{$date} = {
-				%$days_common,
-				is_holiday => 'yes',
-			};
+		my %days_common = (
+			good	=> 0,
+			bad		=> 0,
+			diff 	=> 0,
+		);
+		my $days_common = \%days_common;
+		while ($days >= 0) {
+			my ($month, $day, $year) = split('/', $start_date);
+
+			# 土日祝日判定(Calendarモジュールはweekdayが 1~5 だと平日)
+			my $date = Calendar->new_from_Gregorian(-year=>$year, -month=>$month, -day=>$day);
+			my $week = $date->weekday;
+			my $holiday_flg = isHoliday($date->year, $date->month, $date->day, 1); # 1が付いてると振替休日判定追加
+			# print $holiday_flg;
+			$date = $year . $month . $day;
+			if ($week =~ m/(0|6)/ or $holiday_flg) {
+				$hash_days->{$date} = {
+					%$days_common,
+					is_holiday => 'yes',
+				};
+			}
+			else {
+				$hash_days->{$date} = {
+					%$days_common,
+					is_holiday => 'no',
+				};
+			}
+			$days--;
+			$start_date++;
 		}
-		else {
-			$hash_days->{$date} = {
-				%$days_common,
-				is_holiday => 'no',
-			};
-		}
-		$days--;
-		$start_date++;
-	}
+	};
+  croak("Creation graph template failed: $@") if ($@);
 	return $hash_days;
+
 }
 
 

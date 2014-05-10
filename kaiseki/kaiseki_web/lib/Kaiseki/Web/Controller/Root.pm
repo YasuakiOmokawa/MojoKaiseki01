@@ -6,9 +6,10 @@ use Kaiseki::Model::KaisekiForScrape;
 use Kaiseki::GA::useGA;
 use Storable;
 use Storable qw(nstore);
-use Carp 'croak';
+use Carp qw(croak);
 use Mojo::IOLoop;
 use JSON qw(encode_json);
+# use Carp qw(verbose); # 完全なスタックトレースを実施したい場合はコメントアウトを外してください
 use Mojo::Util qw(dumper url_escape);
 use Time::Piece;
 use Time::Seconds;
@@ -40,75 +41,85 @@ sub detail {
   my $self = shift;
   $self->stash->{error} = '';
 
+  # リクエストパラメータの取得処理
   my $start_date = $self->req->param('start_date');
   # my $end_date = $self->req->param('end_date');
-  my $goal = $self->req->param('goal');
-  my $metrics = $self->req->param('metrics');
+  my $goal = $self->req->param('goal') || "ga:goal1Value"; 
+  my $metrics = $self->req->param('metrics') || "ga:pageviews";
   my $view_id = $self->req->param('g_view_id');
 
-  # パラメータのデバッガ
+  # 全てのリクエストパラメータを表示（デバッグ用）
   my $req_params = $self->req->params->to_hash;
   $self->app->log->debug('all request parameter routing /detail dumps below');
-  # warn dumper $req_params, "\n";
   $self->app->log->debug("\n", dumper $req_params);
 
-  # 初期表示(1900-01-01)のときは、本日日付を取得
-  if ($start_date eq "1900-01-01") {
-    $start_date = localtime;
-  }
-  else {
+  ## データ取得用フォームへセットする値の設定
+  # データ取得期間
+  if ($start_date) {
+    # リクエストパラメータが存在する場合、YYYY-mm-ddの形式で渡ってくるので以下の形で変換してやる。
     $start_date = localtime( Time::Piece->strptime($start_date, '%Y-%m-%d') );
+  } else {
+    $start_date = localtime;
   }
   $self->app->log->debug( "Time::Piece ",$Time::Piece::VERSION,"\n" );
   my $end_date = $start_date->add_months(1);
+  $self->app->log->debug("localtime start_date is $start_date");
   $start_date = $start_date->ymd;
   $end_date = $end_date->ymd;
+  # 目標値（ゴール）選択ボックス
+  my $goal_value = $goal;
+  $goal =~ s/[^\d+]//g;
 
-  my $kaiseki = Kaiseki::Model::Kaiseki->new;
+  ## グラフプロットデータファイルの絶対パスの設定
+  # ユーザid ←ログイン画面実装後にユーザidにしておく
+  my $user_id = 1;
+  my $homedir = $self->app->home;
+  my $filedir = $homedir . "/public/datas/d" . $user_id;
+  if (not -d $filedir) {
+    $self->app->log->debug("ディレクトリ $filedir が存在しません。作成します");
+    mkdir $filedir;
+  }
+  my $plot_file = $filedir . "/" . "graph_plot.json";
+  $self->app->log->debug("graph_plot json path is " . $plot_file);
 
-  my ($client_id, $client_secret, $refresh_token);
-  my $ga_graph;
-  eval{
-    # アナリティクス認証データの取得
-      ($client_id, $client_secret, $refresh_token) = $kaiseki->get_ga_auth(1);
+  ## jquery.ajax メソッドへ渡すグラフプロットファイルの相対パスの設定
+  my $jquery_ajax_plot_path = "datas/d" . $user_id . "/graph_plot.json";
+
+
+  # $view_idリクエストパラメータが渡されないときは、googleAnalytics APIを使ってデータ取得を行わない
+  if ($view_id) {
+
+    eval {
+      # 解析モジュール群の使用開始宣言
+      my $kaiseki = Kaiseki::Model::Kaiseki->new;
+
+      # アナリティクスapi認証用データを取得
+      my ($client_id, $client_secret, $refresh_token) = $kaiseki->get_ga_auth(1);
       $self->app->log->debug('get db parameter for requests analytics api dumps below');
       $self->app->log->debug("\n" . dumper $client_id . "\n" . $client_secret . "\n" . $refresh_token);
+
+      # アナリティクスapi認証を実施
       my $analytics = Kaiseki::GA::useGA->new(
         $client_id,
         $client_secret,
         $refresh_token
       );
 
-      # ユーザid ←ログイン画面実装後にユーザidにしておく
-      my $user_id = 1;
-
-      # アナリティクスデータログの格納ファイルパス
-      my $homedir = $self->app->home;
-      my $filedir = $homedir . "/public/datas/d" . $user_id;
-      if (not -d $filedir) {
-        $self->app->log->debug("ディレクトリ $filedir が存在しません。作成します");
-        mkdir $filedir;
-      }
-
-      # 表示データのファイル名
-      my $file = $filedir . "/" . "graph_plot.json";
-      $self->app->log->debug("graph_plot json path is " . $file);
-
       # グラフテンプレートの作成
-      $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
-      # グラフ値の計算
+      my $ga_graph = $kaiseki->get_ga_graph_template($start_date, $end_date);
+
+      # グラフテンプレートへ、アナリティクスAPIから取得した値を置き換えていく
       $ga_graph = $kaiseki->get_ga_graph(
         $analytics,
         $view_id,
-        $goal,
+        $goal_value,
         $start_date,
         $end_date,
         $metrics,
-        $homedir,
         $ga_graph,
-      );        
+      );
       my $json_out = encode_json($ga_graph);
-      open(FH, ">$file") or die("File Error!: $!");
+      open(FH, "> $plot_file") or die("File Error!: $!");
       print FH $json_out;
       close(FH);
 
@@ -123,30 +134,22 @@ sub detail {
       # 差分の生成
       # $gadiff = $kaiseki->diffGahash($gagood, $gabad);
       # $gadiff = $kaiseki->diffGahash($gabad, $gagood);
-  };
-  # 日付の変更
-  # foreach my $date ($start_date, $end_date) {
-  #   my ($year, $month, $day) = split('-', $date);
-  #   $date = $year . "年" . $month . "月" . $day . "日";
-  #   # $date = url_escape $date;
-  #   $self->app->log->debug("date is $date");
-  # }
+      # 日付の変更
+      # foreach my $date ($start_date, $end_date) {
+      #   my ($year, $month, $day) = split('-', $date);
+      #   $date = $year . "年" . $month . "月" . $day . "日";
+      #   # $date = url_escape $date;
+      #   $self->app->log->debug("date is $date");
+      # }
 
 
-  # メトリクス選択ボックスの値に使うため、ga:goalXXValue のうちの数値だけ取り出し
-  my $goal_value = $goal;
-  $goal =~ s/[^\d+]//g;
-
-  $self->app->log->debug("graph plot parameter dumps below");
-  $self->app->log->debug("\n", dumper \$ga_graph);
-
-  $self->stash->{start_date} = $start_date;
-  $self->stash->{end_date} = $end_date;
-  $self->stash->{client_id} = $client_id;
-  $self->stash->{ga_graph} = $ga_graph;
-  $self->stash->{goal} = $goal;
-  $self->stash->{goal_value} = $goal_value;
-  $self->stash->{metrics} = $metrics;
+      $self->stash->{ga_graph} = $ga_graph;
+    };
+    croak("コントローラでエラー発生: $@") if ($@);
+  }
+  else {
+    $self->stash->{ga_graph} = '';
+  }
 
 
   #### ↓これは全体指標の項目 ####
@@ -172,7 +175,14 @@ sub detail {
 
   #### ここまで ####
 
+  $self->stash->{start_date} = $start_date;
+  $self->stash->{jquery_ajax_plot_path} = $jquery_ajax_plot_path;
+  $self->stash->{end_date} = $end_date;
+  $self->stash->{goal_value} = $goal_value;
+  $self->stash->{metrics} = $metrics;
+  $self->stash->{goal} = $goal;
   $self->stash->{error} = $@ if $@;
+
   $self->render('example/detail');
   # Mojo::IOLoop->start;
 };

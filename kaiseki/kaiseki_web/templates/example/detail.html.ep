@@ -71,7 +71,8 @@
         <option value="ga:goal<%= $goal %>Completions"<% if ($metrics eq "ga:goal" . $goal . "Completions") { %> selected<% } %>>CV数</option>
         <!-- <option value="サンプル3">CV期間</option> -->
     </select>
-<input type="submit" value="再計算">
+<input type="submit" value="データ取得">
+</form>
 <!-- ▲▲▲　レポート取得用フォームここまで　▲▲▲ -->
 
 
@@ -85,10 +86,11 @@
     </td> 
 </table>
  -->        
-<div id="jqPlot-sample" style="height: 150px; width: 1280px;"></div>
         
 <!-- グラフ情報テーブル -->
-% if ($ga_graph) {	
+% if ($ga_graph) {  
+    <div id="ajax-error" style="color:red"></div>
+    <div id="jqPlot-sample" style="height: 150px; width: 1280px;"></div>
 	<table class="tbl-common tbl-graph-plotting">
     <caption >ーギャップ値</caption>
         <tbody>
@@ -109,8 +111,4 @@
         </tbody>
 	</table> 
 % }
-% else {
-	<div style="color:red">エラー。グラフプロットデータが正しく受け渡されていない可能性があります。　code: 12345</div>
-% }
-
 

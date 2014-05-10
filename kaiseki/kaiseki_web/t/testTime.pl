@@ -9,7 +9,7 @@ use Time::Seconds;
 # Time::Pieceオブジェクトの取得
 print "Time::Piece ",$Time::Piece::VERSION,"\n";
 my $t;
-$t = "2014-01-29"; # 入力パラメータとかで渡ってきたとする。
+# $t = "2014-01-29"; # 入力パラメータとかで渡ってきたとする。
 if ($t) {
     $t = localtime( Time::Piece->strptime($t, '%Y-%m-%d') );
 }

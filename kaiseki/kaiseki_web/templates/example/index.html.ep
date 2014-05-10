@@ -2,7 +2,7 @@
 % title 'Google Analytics ビューデータ比較 version 0.0.3';
 <h1>welcome to KK Analytics Service!!</h1>
 <pre>
-# 開始ボタンを押すなよ？絶対に押すなよ！？
+# 開始ボタンを押して処理を開始してください
 </pre>
 <form action="/detail">
   <div>
@@ -10,10 +10,10 @@
       <legend>期間(必須)</legend>
     <label>開始日付 : <input type="date" name="start_date" required></label> 例) 2013-10-01<br>
     <label>終了日付 : <input type="date" name="end_date" required></label> 例) 2013-11-01<br> -->
-    <input type="hidden" name="start_date" value="1900-01-01">
+<!--     <input type="hidden" name="start_date" value="1900-01-01">
     <input type="hidden" name="end_date" value="1900-01-02">
     <input type="hidden" name="goal" value="ga:goal1Value">
-    <input type="hidden" name="metrics" value="ga:pageviews">
+    <input type="hidden" name="metrics" value="ga:pageviews"> -->
     <input type="submit" value="開始" >
   </div>
 </form>

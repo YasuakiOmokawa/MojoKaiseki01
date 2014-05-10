@@ -3,18 +3,11 @@ package Kaiseki::GA::useGA;
 use utf8;
 use Net::Google::Analytics;
 use Net::Google::Analytics::OAuth2;
+use Carp qw(croak);
 use Data::Dumper;
-use Log::Minimal;
-
-# debug is ok? 1 is ok.
-$ENV{LM_DEBUG} = 1;
-$Log::Minimal::TRACE_LEVEL = 1;
+# use Carp qw(verbose); # 完全なスタックトレースを実施したい場合はコメントアウトを外してください
 
 sub new {	
-
-	# googleAnalyticsGetV1.pl を使って取得したRefresh token 
-	# を使ってデータを取りだす　←　これ自動でやりたい。。。
-
 	########## リクエストパラメータの取得  #############
 	# Google Analytics のプロファイルはビューに名称変更された。
 	my ($self,
@@ -24,11 +17,10 @@ sub new {
 	) = @_;
 	######################################
 
-
 	# Google Analytics APIの認証
-	debugf("start googleAnalytics api authent");
-	eval {
-		my $analytics = Net::Google::Analytics->new;
+	my $analytics;
+	eval{
+		$analytics = Net::Google::Analytics->new;
 		my $oauth = Net::Google::Analytics::OAuth2->new(
 			client_id => $client_id,
 			client_secret => $client_secret,
@@ -36,15 +28,24 @@ sub new {
 		);
 		my $token = $oauth->refresh_access_token($refresh_token);
 		$analytics->token($token);
-		print Dumper $analytics;
-		return $analytics;
 	};
+  croak("Authentication googleAnalytics API failed: $@") if ($@);
+	return $analytics;
 
-	if($@) {
-		warnf("googleAnalytics api authent failed. $@");
-		exit(255);
-	}
+	# ▼$analytics変数がapi認証に成功したかどうかを試すコード
 
+	# # 取り出したいパラメータを指定
+	# my $req = $analytics->new_request(
+	# 	ids			=> "ga:79080027",
+	# 	metrics		=> "ga:pageValue",
+	# 	start_date	=> "2014-04-26",
+	# 	end_date	=> "2014-04-27"
+	# );
+	# my $res = $analytics->retrieve($req);
+	# die("Error: \$metricses is $metricses" . "\n" . $res->error_message) if !$res->is_success;
+	# # 取得内容確認
+	# print 'responce object below',"\n";
+	# print Dumper $res;
 }
 
 1;
